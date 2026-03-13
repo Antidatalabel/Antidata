@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Special+Elite&display=swap" rel="stylesheet"> 
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="style.css">
+    <title>antidata</title>
+    <script>
+        const colorModeOverride = window.localStorage.getItem('color-mode');
+        const hasColorModeOverride = typeof colorModeOverride === 'string';
+        if (hasColorModeOverride) {
+          document.documentElement.setAttribute('data-force-color-mode', colorModeOverride);
+        }
+      </script>
+</head>
+
+<body>
+    <div class="pagina">
+        <div class="contenido">
+
+            <!-- TITULO Y ENLACES -->
+            
+            <div class="row">
+                <div>
+                    <span>
+                        <h1 style="display: inline-block">ATD-<span class="redacted">0420</span> - antidata [LEVEL <span
+                                class="redacted">69</span> CONFIDENTIAL]</h1>
+                        <span class="icons">
+                            <a target="_blank" href="#"><img class="ico" alt="icono bandcamp" src="./img/bc-ico.png" /></a>
+                            <a target="_blank" href="#"><img class="ico" alt="icono soundcloud" src="./img/sc-ico.png" /></a>
+                            <a target="_blank" href="https://www.instagram.com/antidata.id/"><img class="ico" alt="icono instagram" src="./img/ig-ico.png" /></a>                                                     
+                        </span>
+                        <span class="lightswitch">
+                            <input type="checkbox" id="toggle-darkmode" />
+                            <label for="toggle-darkmode">
+                                <span>Toggle Light/Dark Mode</span>
+                            </label>
+                        </span>  
+                    </span>
+                </div>
+
+                
+
+            </div>
+
+            <!-- SECCION PRINCIPAL -->
+
+            <div class="row mt-5">
+
+                <!-- COLUMNA #1: LOGO-->
+
+                <div class="col-xl-6">
+                    <img alt="logo antidata" class="logo" src="./img/antidata-logo.png">
+                    <p class="centrado blurred">*** MAJESTIC EYES ONLY ***</p>
+                </div>
+
+                <!-- COLUMNA #2: TEXTO -->
+
+                <div class="col-xl-6">
+                    <p class="mt-4">Lorem ipsum dolor <span class="redacted">sit amet</span>, consectetur adipiscing
+                        elit. Sed tincidunt imperdiet sodales. Pellentesque facilisis malesuada ex, vitae condimentum
+                        metus malesuada id. Nullam vitae massa tortor. Integer magna risus, blandit et dolor sed,
+                        facilisis sagittis odio. Aliquam efficitur leo sit amet dui fermentum efficitur. Praesent
+                        semper, lectus <span class="redacted">sed pretium convallis</span>, turpis felis laoreet magna
+                        eleifend.</p>
+                    <p class="mt-4">Lorem ipsum dolor <span class="redacted">sit amet</span>, consectetur adipiscing
+                        elit. Sed tincidunt imperdiet sodales. Pellentesque facilisis malesuada ex, vitae condimentum
+                        metus malesuada id. Nullam vitae massa tortor. Integer magna risus, blandit et dolor sed,
+                        facilisis sagittis odio. Aliquam efficitur leo sit amet dui fermentum efficitur. Praesent
+                        semper, lectus <span class="redacted">sed pretium convallis</span>, turpis felis laoreet magna
+                        eleifend.</p>
+                </div>
+            </div>
+        </div>
+
+        <br />
+
+        <!-- ACORDEÓN DE TRACKS Y NOTICIAS -->
+
+        <div class="accordion accordion-flush mt-5" id="accordion">
+
+            <!-- 1ER ELEMENTO - TRACK #1 -->
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="header-item1">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#body-item1" aria-expanded="false" aria-controls="body-item1">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-3">
+                                    ATD-0001 / Título Test #1
+                                </div>
+                                <div class="col-3">
+                                    by Artista
+                                </div>
+                                <div class="col-3">
+                                    2022
+                                </div>
+                                <div class="col-3">
+                                    <img class="arte-header" alt="" src="./img/art/art-ph.jpg">
+                                </div>
+                            </div>
+                        </div>
+                    </button>
+                </h2>
+                <div id="body-item1" class="accordion-collapse collapse" aria-labelledby="header-item1"
+                    data-bs-parent="#accordion">
+                    <div class="accordion-body">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-xl-4">
+                                    <img class="arte-body" alt="" src="./img/art/art-ph.jpg">
+                                </div>
+                                <div class="col-8">                                    
+                                    <iframe class="iframe" src="https://bandcamp.com/EmbeddedPlayer/album=3719465707/size=small/bgcol=ffffff/linkcol=0687f5/artwork=none/track=3672738577/transparent=true/" seamless><a href="https://ndsf.bandcamp.com/album/fine-on-your-own">Fine On Your Own by N.D.S.F.</a></iframe>
+                                    <p class="mt-3">Un poco de texto que puede ir debajo del reproductor de bandcamp.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2DO ELEMENTO - TRACK #2 -->
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="header-item2">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#body-item2" aria-expanded="false" aria-controls="body-item2">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-3">
+                                    ATD-0002 / Título Test #2
+                                </div>
+                                <div class="col-3">
+                                    by Artista
+                                </div>
+                                <div class="col-3">
+                                    2022
+                                </div>
+                                <div class="col-3">
+                                    <img class="arte-header" alt="" src="./img/art/art-ph2.jpg">
+                                </div>
+                            </div>
+                        </div>
+                    </button>
+                </h2>
+                <div id="body-item2" class="accordion-collapse collapse" aria-labelledby="header-item2"
+                    data-bs-parent="#accordion">
+                    <div class="accordion-body">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-xl-4">
+                                    <img class="arte-body" alt="" src="./img/art/art-ph2.jpg">
+                                </div>
+                                <div class="col-8">
+                                    <iframe class="iframe" src="https://bandcamp.com/EmbeddedPlayer/album=3719465707/size=small/bgcol=ffffff/linkcol=0687f5/artwork=none/track=3672738577/transparent=true/" seamless><a href="https://ndsf.bandcamp.com/album/fine-on-your-own">Fine On Your Own by N.D.S.F.</a></iframe>
+                                    <p class="mt-3">Un poco de texto que puede ir debajo del reproductor de bandcamp.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3ER ELEMENTO - NOTICIA #1-->
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="header-item3">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#body-item3" aria-expanded="false" aria-controls="body-item3">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-9">
+                                    <span class="destacado">Item Tipo Noticia #1: </span>Cabe un texto bien largo acá. Tan largo que puedo escribir esto también.
+                                </div>
+                                <div class="col">
+                                    12 de noviembre del 2022
+                                </div>
+                            </div>
+                        </div>
+                    </button>
+                </h2>
+                <div id="body-item3" class="accordion-collapse collapse show" aria-labelledby="header-item3"
+                    data-bs-parent="#accordion">
+                    <div class="accordion-body">
+                        <div class="container mt-3">
+                            <div class="row">
+                                <div class="col-xl-6">
+                                    <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Vitae aliquam
+                                        laboriosam praesentium nesciunt, repellendus totam dolorum provident nihil
+                                        expedita rem animi inventore, sunt natus hic eligendi iure quam suscipit
+                                        voluptatibus temporibus error molestias explicabo. Exercitationem, totam
+                                        cupiditate! Repudiandae, modi autem, eveniet doloribus ipsam excepturi nostrum
+                                        iusto ex eius harum quibusdam libero magnam veniam dolores aspernatur atque
+                                        veritatis ut alias dolorem voluptas cupiditate quod eum nisi sapiente. Nobis
+                                        iusto quibusdam repellendus eos maxime magni, quam assumenda!</p>
+                                </div>
+                                <div class="col-xl-6">
+                                    <a href=#><img class="flyer" alt="" src="./img/flyer-placeholder.png"></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 4TO ELEMENTO - NOTICIA #2-->
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="header-item4">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#body-item4" aria-expanded="false" aria-controls="body-item4">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-9">
+                                    <span class="destacado">Item Tipo Noticia #2: </span>Cabe un texto bien largo acá. Tan largo que puedo escribir esto también.
+                                </div>
+                                <div class="col">
+                                    10 de noviembre del 2022
+                                </div>
+                            </div>
+                        </div>
+                    </button>
+                </h2>
+                <div id="body-item4" class="accordion-collapse collapse" aria-labelledby="header-item4"
+                    data-bs-parent="#accordion">
+                    <div class="accordion-body">
+                        <div class="container mt-3">
+                            <div class="row">
+                                <div class="col">
+                                    <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Vitae aliquam
+                                        laboriosam praesentium nesciunt, repellendus totam dolorum provident nihil
+                                        expedita rem animi inventore, sunt natus hic eligendi iure quam suscipit
+                                        voluptatibus temporibus error molestias explicabo. Exercitationem, totam
+                                        cupiditate! Repudiandae, modi autem, eveniet doloribus ipsam excepturi nostrum
+                                        iusto ex eius harum quibusdam libero magnam veniam dolores aspernatur atque
+                                        veritatis ut alias dolorem voluptas cupiditate quod eum nisi sapiente. Nobis
+                                        iusto quibusdam repellendus eos maxime magni, quam assumenda!</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- FOOTER - TEXTO FINAL -->
+
+        <div class="footer-parent">
+            <p class="footer"><span class="redacted">No sé que wea escribir acá</span> © 2022</p>
+        </div>
+        
+    </div>
+
+    <script>
+        if ((colorModeOverride == 'dark') || (!hasColorModeOverride && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+          document.querySelector('#toggle-darkmode').checked = true;
+        }
+    </script>
+
+    <script type="text/javascript" src="./index.js"></script>
+
+</body>
+</html>
