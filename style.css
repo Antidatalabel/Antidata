@@ -1,0 +1,231 @@
+/* Botón Lig h/ Dark Toggle */
+#toggle-darkmode {
+    display: none;
+}
+#toggle-darkmode + label > span {
+    position: absolute;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    width: 1px;
+    margin: -1px;
+    padding: 0;
+    border: 0;
+}
+#toggle-darkmode + label:after {
+    font-size: 1.7em;
+    content: "☼";
+    cursor: pointer;
+    color: var(--color-fuente)
+}
+#toggle-darkmode:checked + label:after {
+    content: "☾";
+}
+
+/* Light Mode */
+:root,
+:root[data-force-color-mode="light"] {
+  color-scheme: light dark;
+    --fondo-pagina: white;
+    --body-bg-filter: invert(100%);
+    --fuente: 'Special Elite', monospace;
+    --fuente-2: 'Courier Prime', monospace;
+    --color-fuente: black;
+    --image-blend: multiply;
+    --image-filter: none;
+    --bg-image: url(./img/scan-texture.jpg);
+}
+
+/* Dark Mode */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --fondo-pagina: black;
+        --body-bg-filter: none;
+        --fuente: 'Special Elite', monospace;
+        --fuente-2: 'Courier Prime', monospace;
+        --color-fuente: white;
+        --image-blend: normal;
+        --image-filter: invert(100%);
+        --bg-image: url(./img/scan-texture-bl.jpg);
+    }
+  }
+  :root[data-force-color-mode="dark"] {
+        --fondo-pagina: black;
+        --body-bg-filter: none;
+        --fuente: 'Special Elite', monospace;
+        --fuente-2: 'Courier Prime', monospace;
+        --color-fuente: white;
+        --image-blend: normal;
+        --image-filter: invert(100%);
+        --bg-image: url(./img/scan-texture-bl.jpg);
+  }
+
+/* Web */
+
+* {
+    padding: 0;
+    margin: 0;
+}
+
+*:focus {
+    box-shadow: none !important;
+    outline: none !important;
+    border: none !important;
+} 
+
+body {
+    padding: 20px 0;
+    position: relative;
+}
+
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url(./img/bkgrnd.jpg);
+    background-size: cover;
+    background-position: center;
+    filter: var(--body-bg-filter);
+    opacity: 1;
+    z-index: -1;
+}
+
+.pagina {
+    background-color: var(--fondo-pagina);
+    background-image: var(--bg-image);
+    background-position: top;
+    background-repeat: no-repeat;
+    background-size: 100%;
+    background-blend-mode: var(--image-blend);
+    max-width: 1250px;
+    min-width: 380px;
+    min-height: 1550px;
+    margin: auto;
+    box-shadow: 10px 10px 5px rgba(0,0,0,0.5);
+    transform: rotateZ(2deg);
+    position: relative;
+    padding-bottom: 100px;
+}
+
+.contenido {
+    padding: 45px 45px 0 45px;
+}
+
+h1 {
+    text-align: left;
+    font-family: var(--fuente);
+    font-weight: 400;
+    font-size: 1.15rem;
+    letter-spacing: 2px;
+    color: var(--color-fuente);
+}
+
+.logo {
+    width: 450px;
+    max-width: 100%;
+    display: block;
+    margin: auto;
+    padding: 25px;
+    pointer-events: none;
+    filter: var(--image-filter);
+}
+
+p {
+    text-align: justify;
+    font-family: var(--fuente);
+    font-weight: 400;
+    font-size: .9rem;
+    line-height: 1.6rem;
+    letter-spacing: 2px;
+    color: var(--color-fuente);
+}
+
+.blurred {
+    filter: blur(6px);
+}
+
+.redacted {
+    background-color: var(--color-fuente);
+    color: var(--color-fuente);
+    padding: 3px;
+    user-select: none;
+    cursor: none;
+}
+
+.centrado {
+    text-align: center;
+}
+
+.accordion-item {
+    border-color: var(--color-fuente) !important;
+}
+
+.accordion-button {
+    background-color: var(--fondo-pagina) !important;
+    color: var(--color-fuente) !important;
+    font-family: var(--fuente-2);
+    font-weight: 400;
+    font-size: .8rem;
+}
+
+.accordion-body {
+    background-color: var(--fondo-pagina) !important;
+}
+
+.ico {
+    height: 35px;
+    margin: 5px;
+    float: right;
+    filter: var(--image-filter);
+}
+
+.lightswitch {
+    float: right;
+    margin-right: 25px;
+}
+
+.icons {
+    width: 100%;
+}
+
+.arte-header {
+    width: 20px;
+}
+
+.arte-body {
+    width: 350px;
+}
+
+.flyer {
+    margin: auto;
+    display: block;
+    max-width: 100%
+}
+
+.footer {
+    text-align: center;
+}
+
+.footer-parent {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translate(-50%, 0);
+}
+
+.destacado {
+    font-weight: bolder;
+    font-size: .9rem;
+    letter-spacing: 1px;
+}
+
+.iframe {
+    border: 0;
+    width: 100%;
+    height: 42px;
+    min-width: 350px;
+    margin-top: 5px;
+}
