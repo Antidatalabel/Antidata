@@ -181,6 +181,10 @@ p {
     background-color: var(--fondo-pagina) !important;
 }
 
+.cabecera {
+    width: 100%;
+}
+
 .ico {
     height: 35px;
     margin: 5px;
@@ -247,15 +251,20 @@ p {
     .contenido {
         padding: 22px 22px 0 22px;
     }
+    .cabecera {
+        text-align: center;
+    }
     h1 {
         display: block;
+        text-align: center;
     }
     .icons {
         display: block;
-        margin-top: 8px;
+        text-align: center;
+        margin-top: 10px;
     }
     .ico {
         float: none;
-        margin: 5px 10px 5px 0;
+        margin: 5px 6px;
     }
 }
