@@ -121,6 +121,7 @@ body::before {
 
 h1 {
     text-align: left;
+    display: inline-block;
     font-family: var(--fuente);
     font-weight: 400;
     font-size: 1.15rem;
@@ -245,5 +246,16 @@ p {
     }
     .contenido {
         padding: 22px 22px 0 22px;
+    }
+    h1 {
+        display: block;
+    }
+    .icons {
+        display: block;
+        margin-top: 8px;
+    }
+    .ico {
+        float: none;
+        margin: 5px 10px 5px 0;
     }
 }
