@@ -73,9 +73,14 @@
     border: none !important;
 } 
 
+html {
+    overflow-x: hidden;
+}
+
 body {
     padding: 20px 0;
     position: relative;
+    overflow-x: hidden;
 }
 
 body::before {
@@ -197,6 +202,8 @@ p {
 
 .arte-body {
     width: 350px;
+    max-width: 100%;
+    height: auto;
 }
 
 .flyer {
@@ -228,4 +235,15 @@ p {
     height: 42px;
     min-width: 350px;
     margin-top: 5px;
+}
+
+/* ===== Mobile ===== */
+@media (max-width: 768px) {
+    .pagina {
+        min-width: 0;
+        transform: none;
+    }
+    .contenido {
+        padding: 22px 22px 0 22px;
+    }
 }
