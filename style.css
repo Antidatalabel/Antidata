@@ -275,3 +275,35 @@ p {
         margin-right: 0;
     }
 }
+
+/* MANIFIESTO BILINGÜE: rota entre español e inglés */
+
+.manifiesto {
+    display: grid;
+}
+
+.manifiesto-texto {
+    grid-area: 1 / 1;
+    animation: manifiesto-rotar 28s infinite;
+}
+
+.manifiesto-en {
+    animation-delay: -14s;
+}
+
+@keyframes manifiesto-rotar {
+    0%     { opacity: 0; visibility: visible; }
+    3.57%  { opacity: 1; }
+    46.43% { opacity: 1; }
+    50%    { opacity: 0; visibility: hidden; }
+    100%   { opacity: 0; visibility: hidden; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .manifiesto {
+        display: block;
+    }
+    .manifiesto-texto {
+        animation: none;
+    }
+}
