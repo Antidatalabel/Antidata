@@ -306,4 +306,33 @@ p {
     .manifiesto-texto {
         animation: none;
     }
+	.manifiesto-idiomas {
+        display: none;
+    }
+}
+.manifiesto-idiomas span {
+    opacity: 0.35;
+    animation: idioma-activo 28s infinite;
+	font-size: 0.8em
+}
+
+.manifiesto-idiomas .idioma-en {
+    animation-delay: -14s;
+}
+
+@keyframes idioma-activo {
+    0%     { opacity: 0.35; }
+    3.57%  { opacity: 1; }
+    46.43% { opacity: 1; }
+    50%    { opacity: 0.35; }
+    100%   { opacity: 0.35; }
+}
+.en-primero .manifiesto-texto,
+.en-primero .idioma-es {
+    animation-delay: -14s;
+}
+
+.en-primero .manifiesto-en,
+.en-primero .idioma-en {
+    animation-delay: 0s;
 }
