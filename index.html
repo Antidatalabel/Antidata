@@ -18,6 +18,9 @@
         if (hasColorModeOverride) {
           document.documentElement.setAttribute('data-force-color-mode', colorModeOverride);
         }
+		if (!navigator.language.toLowerCase().startsWith('es')) {
+			document.documentElement.classList.add('en-primero');
+		}
       </script>
 </head>
 
@@ -73,7 +76,8 @@
 							<p class="mt-4 pe-xl-5"><span class="destacado"> Antidata </span>is that which does not complete the record. The fragment that interrupts the series, the noise that precedes the pattern or undoes it. If data is the minimum unit of certainty [something that can be stored, classified, transmitted] then its opposite is not the void, but the signal that resists that logic. </p>
 							<p class="mt-4 pe-xl-5">Something entered the system. The system keeps running.</p>
 						</div>
-				</div>
+					</div>
+					<p class="manifiesto-idiomas pe-xl-5" aria-hidden="true">[ <span class="idioma-es">ES</span> / <span class="idioma-en">EN</span> ]</p>
                 </div>
             </div>
         </div>
