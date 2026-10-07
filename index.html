@@ -75,12 +75,26 @@
         <!-- ACORDEÓN DE TRACKS Y NOTICIAS -->
 
         <div class="accordion accordion-flush mt-5" id="accordion">
+
+			<!-- ACORDEÓN DE TRACKS Y NOTICIAS
+
+             MODO: paneles independientes. Para que al abrir uno se cierren los demás,
+             renombrar data-bs-parent-off a data-bs-parent en cada panel.
+
+             ESTADO INICIAL DE CADA LANZAMIENTO:
+             Abierto: botón class="accordion-button" + aria-expanded="true"
+                      panel class="accordion-collapse collapse show"
+             Cerrado: botón class="accordion-button collapsed" + aria-expanded="false"
+                      panel class="accordion-collapse collapse"
+
+             NUEVO LANZAMIENTO: copiar un bloque y cambiar el número en
+             header-itemN (2 veces) y body-itemN (3 veces). -->
 <!-- 3ER ELEMENTO - TRACK #3 -->
 
           <div class="accordion-item">
-                <h2 class="accordion-header" id="header-item2">
+                <h2 class="accordion-header" id="header-item3">
                     <button class="accordion-button" type="button" data-bs-toggle="collapse"
-                        data-bs-target="#body-item2" aria-expanded="true" aria-controls="body-item2">
+                        data-bs-target="#body-item3" aria-expanded="true" aria-controls="body-item3">
                         <div class="container">
                             <div class="row">
                                 <div class="col-3">
@@ -99,8 +113,8 @@
                         </div>
                     </button>
                 </h2>
-                <div id="body-item2" class="accordion-collapse collapse show" aria-labelledby="header-item2"
-                    data-bs-parent="#accordion">
+                <div id="body-item3" class="accordion-collapse collapse show" aria-labelledby="header-item3"
+                data-bs-parent-off="#accordion">
                     <div class="accordion-body">
                         <div class="container">
                             <div class="row">
@@ -149,7 +163,7 @@
                     </button>
                 </h2>
                 <div id="body-item2" class="accordion-collapse collapse show" aria-labelledby="header-item2"
-                    data-bs-parent="#accordion">
+                    data-bs-parent-off="#accordion">
                     <div class="accordion-body">
                         <div class="container">
                             <div class="row">
@@ -178,8 +192,8 @@ Ectotermia moves between electro, downtempo and IDM, with a funky pulse running 
 
             <div class="accordion-item">
                 <h2 class="accordion-header" id="header-item1">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                        data-bs-target="#body-item1" aria-expanded="false" aria-controls="body-item1">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#body-item1" aria-expanded="true" aria-controls="body-item1">
                         <div class="container">
                             <div class="row">
                                 <div class="col-3">
@@ -198,8 +212,8 @@ Ectotermia moves between electro, downtempo and IDM, with a funky pulse running 
                         </div>
                     </button>
                 </h2>
-                <div id="body-item1" class="accordion-collapse collapse" aria-labelledby="header-item1"
-                    data-bs-parent="#accordion">
+                <div id="body-item1" class="accordion-collapse collapse show" aria-labelledby="header-item1"
+                    data-bs-parent-off="#accordion">
                     <div class="accordion-body">
                         <div class="container">
                             <div class="row">
@@ -221,7 +235,7 @@ Ectotermia moves between electro, downtempo and IDM, with a funky pulse running 
                     </div>
                 </div>
             </div>
- 
+		</div>
         <!-- FOOTER - TEXTO FINAL -->
 
         <div class="footer-parent">
