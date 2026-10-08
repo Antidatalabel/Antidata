@@ -34,6 +34,7 @@
     --image-blend: multiply;
     --image-filter: none;
     --bg-image: url(./img/scan-texture.jpg);
+    --chevron-filter: none;
 }
 
 /* Dark Mode */
@@ -47,6 +48,7 @@
         --image-blend: normal;
         --image-filter: invert(100%);
         --bg-image: url(./img/scan-texture-bl.jpg);
+        --chevron-filter: brightness(0) invert(100%);
     }
   }
   :root[data-force-color-mode="dark"] {
@@ -58,6 +60,7 @@
         --image-blend: normal;
         --image-filter: invert(100%);
         --bg-image: url(./img/scan-texture-bl.jpg);
+        --chevron-filter: brightness(0) invert(100%);
   }
 
 /* Web */
@@ -178,6 +181,14 @@ p {
     font-size: .8rem;
 }
 
+/* Chevron a la izquierda del encabezado */
+.accordion-button::after {
+    order: -1;
+    margin-left: 0;
+    margin-right: 1rem;
+    filter: var(--chevron-filter);
+}
+
 .accordion-body {
     background-color: var(--fondo-pagina) !important;
 }
@@ -239,8 +250,6 @@ p {
     border: 0;
     width: 100%;
     height: 42px;
-    min-width: 350px;
-    margin-top: 5px;
 }
 
 /* ===== Mobile ===== */
@@ -273,6 +282,17 @@ p {
         top: 18px;
         right: 22px;
         margin-right: 0;
+    }
+    /* Barras del acordeón: sin miniatura de portada y texto centrado verticalmente */
+    .accordion-button .row {
+        align-items: center;
+    }
+    .accordion-button .col-3:has(> .arte-header) {
+        display: none;
+    }
+    .accordion-button .col-3 {
+        flex: 1 0 0%;
+        width: auto;
     }
 }
 
