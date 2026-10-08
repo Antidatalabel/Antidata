@@ -18,7 +18,7 @@
     <div class="pagina">
         <div class="contenido">
 
-            <!-- TITULO Y ENLACES -->
+            <!-- TITULO Y ENLACES aaa-->
             
             <div class="row">
                 <div class="cabecera">
@@ -245,7 +245,11 @@ Ectotermia moves between electro, downtempo and IDM, with a funky pulse running 
         </div>
         
     </div>
-    <script></script>
+    <script>
+        if ((colorModeOverride == 'dark') || (!hasColorModeOverride && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.querySelector('#toggle-darkmode').checked = true;
+        };
+    </script>
     <script type="text/javascript" src="./index.js"></script>
 
 </body>
