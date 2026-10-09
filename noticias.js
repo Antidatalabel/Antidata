@@ -35,10 +35,12 @@
 	};
 
 	const texto = (valor) => (typeof valor === 'string' ? valor : '');
-	const imagenValida = (ruta) => IMAGEN_PERMITIDA.test(texto(ruta));
+	// La vista previa del admin además acepta imágenes recién elegidas (blob:) que aún no se subieron
+	let vistaPrevia = false;
+	const imagenValida = (ruta) => IMAGEN_PERMITIDA.test(texto(ruta)) || (vistaPrevia && /^blob:/.test(texto(ruta)));
 
 	// Negrita, cursiva y enlaces dentro de un párrafo
-	const FORMATO = /\*\*([\s\S]+?)\*\*|\*([\s\S]+?)\*|\[([^\]]+)\]\(([^)\s]+)\)/g;
+	const FORMATO = /\*\*([\s\S]+?)\*\*|\*([\s\S]+?)\*|\[([^\]]+)\]\(((?:[^()\s]|\([^()\s]*\))+)\)/g;
 
 	const agregarEnLinea = (padre, contenido) => {
 		let ultimo = 0;
@@ -264,7 +266,12 @@
 		]));
 	};
 
-	window.AntidataNoticias = { crearItem: crearItem, renderizar: renderizar, ordenar: ordenar };
+	window.AntidataNoticias = {
+		crearItem: crearItem,
+		renderizar: renderizar,
+		ordenar: ordenar,
+		activarVistaPrevia: () => { vistaPrevia = true; }
+	};
 
 	/* PAGINACIÓN MEDIDA
 	   Cada página lleva tantas noticias como caben plegadas en el alto de la pantalla

@@ -1,0 +1,19 @@
+/* Ajustes de la vista previa del admin sobre style.css del sitio: sin fondos ni
+   texturas, y un recuadro en lugar del reproductor de Bandcamp */
+body {
+    padding: 12px 0;
+    background: var(--fondo-pagina);
+}
+
+body::before {
+    display: none;
+}
+
+.reproductor-falso {
+    display: flex;
+    align-items: center;
+    padding: 0 12px;
+    font-family: var(--fuente-2);
+    font-size: 0.8rem;
+    color: #333;
+}

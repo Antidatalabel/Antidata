@@ -1,0 +1,179 @@
+/* Admin de noticias: versión simplificada del diseño del sitio (mismas variables,
+   tipografías y modo oscuro), sin animaciones, texturas ni imágenes de fondo. */
+
+:root,
+:root[data-force-color-mode="light"] {
+    color-scheme: light;
+    --fondo-pagina: white;
+    --fuente: 'Special Elite', monospace;
+    --fuente-2: 'Courier Prime', monospace;
+    --color-fuente: black;
+    --suave: rgba(0, 0, 0, 0.55);
+    --borde: rgba(0, 0, 0, 0.35);
+    --peligro: #b00020;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        color-scheme: dark;
+        --fondo-pagina: black;
+        --color-fuente: white;
+        --suave: rgba(255, 255, 255, 0.6);
+        --borde: rgba(255, 255, 255, 0.4);
+        --peligro: #ff6b6b;
+    }
+}
+
+:root[data-force-color-mode="dark"] {
+    color-scheme: dark;
+    --fondo-pagina: black;
+    --color-fuente: white;
+    --suave: rgba(255, 255, 255, 0.6);
+    --borde: rgba(255, 255, 255, 0.4);
+    --peligro: #ff6b6b;
+}
+
+* { box-sizing: border-box; }
+
+[hidden] { display: none !important; }
+
+body {
+    margin: 0;
+    padding: 0 16px 96px;
+    background: var(--fondo-pagina);
+    color: var(--color-fuente);
+    font-family: var(--fuente-2);
+    font-size: 16px;
+    line-height: 1.5;
+}
+
+main, .barra, .aviso {
+    max-width: 760px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+h1, h2, legend {
+    font-family: var(--fuente);
+    font-weight: 400;
+    letter-spacing: 2px;
+}
+
+h1 { font-size: 1.1rem; margin: 0; }
+h2 { font-size: 1rem; }
+
+.barra {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px 16px;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--color-fuente);
+    margin-bottom: 16px;
+}
+
+/* Teléfono: título y modo en la primera línea, acciones debajo a todo el ancho */
+.barra h1 { flex: 1; }
+.tema { order: 2; }
+.barra-acciones { order: 3; display: flex; gap: 8px; width: 100%; }
+.barra-acciones button { flex: 1; }
+@media (min-width: 600px) {
+    .barra-acciones { order: 1; width: auto; margin-left: auto; }
+    .barra-acciones button { flex: none; }
+}
+.tema::after { content: "☼"; font-size: 1.3em; }
+:root[data-modo-actual="dark"] .tema::after { content: "☾"; }
+
+button, input, select, textarea {
+    font: inherit;
+    color: var(--color-fuente);
+    background: var(--fondo-pagina);
+    border: 1px solid var(--borde);
+    border-radius: 0;
+}
+
+button {
+    padding: 8px 14px;
+    min-height: 44px;
+    cursor: pointer;
+    letter-spacing: 1px;
+}
+
+button.principal { background: var(--color-fuente); color: var(--fondo-pagina); border-color: var(--color-fuente); }
+button.peligro { color: var(--peligro); border-color: var(--peligro); }
+button[aria-pressed="true"] { border-color: var(--color-fuente); font-weight: 700; text-decoration: underline; }
+button:disabled { opacity: 0.4; cursor: default; }
+
+button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible, a:focus-visible {
+    outline: 2px dashed var(--color-fuente);
+    outline-offset: 2px;
+}
+
+input, select, textarea { width: 100%; padding: 8px; min-height: 44px; }
+input[type="radio"] { width: auto; min-height: 0; margin-right: 6px; }
+input[type="file"] { border-style: dashed; }
+textarea { resize: vertical; }
+
+label { display: block; margin-bottom: 12px; }
+/* min-width: 0 evita que un texto largo ensanche el recuadro más allá de la pantalla */
+fieldset { border: 1px solid var(--borde); margin: 0 0 16px; padding: 8px 12px 4px; min-width: 0; }
+legend { padding: 0 6px; font-size: 0.9rem; }
+fieldset.estado label { display: inline-block; margin-right: 16px; }
+
+.fila { display: flex; gap: 12px; flex-wrap: wrap; }
+.fila > label { flex: 1 1 200px; }
+.fila-botones { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 8px; }
+
+.suave { color: var(--suave); font-size: 0.85em; }
+.ayuda { margin: 0 0 8px; }
+code { font-family: inherit; border: 1px solid var(--borde); padding: 0 4px; }
+
+.tarjeta { max-width: 360px; margin: 48px auto; }
+
+.aviso { border: 1px solid var(--color-fuente); padding: 10px 14px; }
+.aviso.error { border-color: var(--peligro); color: var(--peligro); }
+
+.lista { list-style: none; padding: 0; margin: 0 0 16px; }
+.lista li { border-bottom: 1px solid var(--borde); }
+.lista li > button, .lista .fila-historial {
+    display: flex;
+    gap: 12px;
+    align-items: baseline;
+    width: 100%;
+    text-align: left;
+    border: 0;
+    padding: 12px 4px;
+}
+.lista .fila-historial { justify-content: space-between; flex-wrap: wrap; }
+.lista .titulo { flex: 1; }
+.lista .fecha { white-space: nowrap; }
+.etiqueta { font-size: 0.75em; border: 1px solid var(--borde); padding: 0 6px; white-space: nowrap; }
+.etiqueta.borrador { border-style: dashed; }
+
+.imagen-actual { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+.imagen-actual img { flex: none; width: 64px; height: 64px; object-fit: cover; border: 1px solid var(--borde); }
+.imagen-actual span { min-width: 0; overflow-wrap: anywhere; }
+
+.vista-previa { width: 100%; height: 420px; border: 1px solid var(--borde); background: var(--fondo-pagina); }
+
+/* Barra de guardar fija abajo, cómoda en el teléfono */
+.barra-guardar {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    padding: 10px 16px calc(10px + env(safe-area-inset-bottom, 0px));
+    background: var(--fondo-pagina);
+    border-top: 1px solid var(--color-fuente);
+}
+.barra-guardar .peligro { margin-left: auto; }
+@media (min-width: 792px) {
+    .barra-guardar { padding-left: calc((100% - 760px) / 2); padding-right: calc((100% - 760px) / 2); }
+}
+
+/* Campos que solo aplican a un tipo */
+form[data-tipo="noticia"] .solo-lanzamiento,
+form[data-tipo="lanzamiento"] .solo-noticia { display: none; }

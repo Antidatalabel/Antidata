@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&family=Special+Elite&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="admin.css">
+    <script src="tema.js"></script>
+    <title>ATD · noticias</title>
+</head>
+<body>
+    <header class="barra">
+        <h1>ATD · noticias</h1>
+        <nav class="barra-acciones" id="acciones" hidden>
+            <button type="button" id="btn-nueva">Nueva</button>
+            <button type="button" id="btn-historial">Historial</button>
+            <button type="button" id="btn-salir">Salir</button>
+        </nav>
+        <button type="button" id="btn-tema" class="tema" aria-label="Cambiar modo claro/oscuro"></button>
+    </header>
+
+    <p id="aviso" class="aviso" role="status" aria-live="polite" hidden></p>
+
+    <main>
+        <!-- LOGIN -->
+        <section id="vista-login" hidden>
+            <form id="form-login" class="tarjeta" autocomplete="on">
+                <label for="clave">Contraseña</label>
+                <input type="password" id="clave" name="password" autocomplete="current-password" required>
+                <button type="submit" class="principal">Entrar</button>
+            </form>
+        </section>
+
+        <!-- LISTA -->
+        <section id="vista-lista" hidden>
+            <ul id="lista" class="lista"></ul>
+            <p id="lista-vacia" class="suave" hidden>Todavía no hay noticias.</p>
+        </section>
+
+        <!-- HISTORIAL -->
+        <section id="vista-historial" hidden>
+            <h2>Últimos cambios</h2>
+            <p class="suave">Restaurar crea un cambio nuevo con las noticias como estaban en esa versión; no borra el historial.</p>
+            <ul id="historial" class="lista"></ul>
+            <button type="button" id="btn-volver-historial">Volver</button>
+        </section>
+
+        <!-- FORMULARIO -->
+        <section id="vista-form" hidden>
+            <form id="form-noticia" novalidate>
+                <div class="fila">
+                    <label>Tipo
+                        <select name="tipo">
+                            <option value="lanzamiento">Lanzamiento</option>
+                            <option value="noticia">Noticia</option>
+                        </select>
+                    </label>
+                    <label>Fecha
+                        <input type="date" name="fecha" required>
+                    </label>
+                </div>
+
+                <fieldset class="estado">
+                    <legend>Estado</legend>
+                    <label><input type="radio" name="estado" value="borrador"> Borrador</label>
+                    <label><input type="radio" name="estado" value="publicada"> Publicada</label>
+                </fieldset>
+
+                <label>Título
+                    <input type="text" name="titulo" required maxlength="200" placeholder="Piedra del Lobo EP">
+                </label>
+
+                <div class="solo-lanzamiento">
+                    <div class="fila">
+                        <label>Catálogo
+                            <input type="text" name="catalogo" maxlength="40" placeholder="ATD-004">
+                        </label>
+                        <label>Artista
+                            <input type="text" name="artista" maxlength="200">
+                        </label>
+                    </div>
+                    <label>Subtítulo
+                        <input type="text" name="subtitulo" maxlength="200" placeholder="ATD004 - Título">
+                    </label>
+
+                    <fieldset>
+                        <legend>Reproductor de Bandcamp</legend>
+                        <label>Pega aquí el código "Embed" de Bandcamp (rellena los campos de abajo)
+                            <textarea id="embed" rows="2" placeholder="&lt;iframe ... album=1234567890 ..."></textarea>
+                        </label>
+                        <div class="fila">
+                            <label>ID del álbum
+                                <input type="text" name="bandcamp-album" inputmode="numeric" pattern="\d*">
+                            </label>
+                            <label>Enlace del álbum
+                                <input type="url" name="bandcamp-url" placeholder="https://antidatalabel.bandcamp.com/album/...">
+                            </label>
+                        </div>
+                        <label>Texto del enlace
+                            <input type="text" name="bandcamp-texto" maxlength="200">
+                        </label>
+                    </fieldset>
+                </div>
+
+                <fieldset>
+                    <legend id="leyenda-imagen">Portada</legend>
+                    <div class="imagen-actual">
+                        <img id="imagen-miniatura" alt="" hidden>
+                        <span id="imagen-ruta" class="suave"></span>
+                    </div>
+                    <label>Subir imagen (se reduce automáticamente)
+                        <input type="file" id="imagen-archivo" accept="image/*">
+                    </label>
+                    <label>Descripción de la imagen (para lectores de pantalla)
+                        <input type="text" name="imagen-alt" maxlength="300">
+                    </label>
+                    <label class="solo-noticia">Enlace al hacer clic en la imagen
+                        <input type="url" name="enlace" placeholder="https://...">
+                    </label>
+                </fieldset>
+
+                <p class="suave ayuda">Texto: deja una línea en blanco entre párrafos. <code>**negrita**</code>, <code>*cursiva*</code>, <code>[texto](https://enlace)</code>.</p>
+                <label>Texto en español
+                    <textarea name="cuerpo-es" rows="8"></textarea>
+                </label>
+                <label>Texto en inglés
+                    <textarea name="cuerpo-en" rows="8"></textarea>
+                </label>
+
+                <fieldset>
+                    <legend>Vista previa</legend>
+                    <div class="fila-botones">
+                        <button type="button" data-vista="plegada">Plegada</button>
+                        <button type="button" data-vista="desplegada" aria-pressed="true">Desplegada</button>
+                        <button type="button" data-idioma="es" aria-pressed="true">ES</button>
+                        <button type="button" data-idioma="en">EN</button>
+                    </div>
+                    <iframe id="vista-previa" title="Vista previa de la noticia" class="vista-previa"></iframe>
+                </fieldset>
+
+                <div class="barra-guardar">
+                    <button type="submit" class="principal">Guardar <span class="suave">(Ctrl+S)</span></button>
+                    <button type="button" id="btn-cancelar">Cancelar</button>
+                    <button type="button" id="btn-borrar" class="peligro">Borrar</button>
+                </div>
+            </form>
+        </section>
+    </main>
+
+    <script src="vista/noticias.js"></script>
+    <script src="admin.js"></script>
+</body>
+</html>
