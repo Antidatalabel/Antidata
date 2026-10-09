@@ -60,6 +60,7 @@ h1, h2, legend {
 }
 
 h1 { font-size: 1.1rem; margin: 0; }
+a { color: var(--color-fuente); }
 h2 { font-size: 1rem; }
 
 .barra {

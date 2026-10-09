@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Special+Elite&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/style.css">
+    <script>
+        // Mismo tema e idioma que el resto del sitio (ver index.html)
+        try {
+            const modoGuardado = window.localStorage.getItem('color-mode');
+            if (modoGuardado) document.documentElement.setAttribute('data-force-color-mode', modoGuardado);
+        } catch (e) {}
+        (function () {
+            var lista = navigator.languages && navigator.languages.length ? navigator.languages : [navigator.language || ''];
+            var idioma = 'en';
+            for (var i = 0; i < lista.length; i++) {
+                var base = String(lista[i]).toLowerCase().split('-')[0];
+                if (base === 'es' || base === 'en') { idioma = base; break; }
+            }
+            try { var guardado = window.localStorage.getItem('idioma'); if (guardado === 'es' || guardado === 'en') idioma = guardado; } catch (e) {}
+            document.documentElement.setAttribute('lang', idioma);
+            if (idioma === 'en') document.documentElement.classList.add('en-primero');
+        })();
+    </script>
+    <style>
+        /* La hoja de la página de error es corta: sin el alto mínimo de la portada */
+        .pagina { min-height: 0; padding-bottom: 45px; }
+        .error-404 { text-align: center; padding: 15vh 0 10vh; }
+        .error-404 h1 { display: block; text-align: center; font-size: 3rem; letter-spacing: 8px; margin-bottom: 1.5rem; }
+        .error-404 p { text-align: center; }
+        .error-404 a { color: var(--color-fuente); }
+    </style>
+    <title>404 · antidata</title>
+</head>
+
+<body>
+    <div class="pagina">
+        <div class="contenido">
+            <div class="error-404">
+                <h1>404</h1>
+                <div class="noticia-texto" lang="es">
+                    <p>Esta página no existe. El sistema sigue funcionando.</p>
+                    <p><a href="/">Volver a ANTIDATA</a></p>
+                </div>
+                <div class="noticia-texto" lang="en">
+                    <p>This page does not exist. The system keeps running.</p>
+                    <p><a href="/">Back to ANTIDATA</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

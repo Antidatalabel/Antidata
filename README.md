@@ -78,9 +78,10 @@ abriendo el archivo directo. `admin/` en Live Server abre un modo de prueba que 
 **Sitio público, ya publicado** (en antidata.id, con el paso 8 de la configuración hecho;
 en Live Server estas dos no se pueden probar porque ahí se ven todos los archivos):
 - [ ] `antidata.id/robots.txt` muestra texto (`User-agent: *`), no la página.
-- [ ] `antidata.id/admin/` **no** muestra el formulario de contraseña del admin. Lo normal
-      es que muestre la portada del sitio (Cloudflare muestra la portada en las direcciones
-      que no existen). Si aparece "ATD · noticias", revisa el paso 8.
+- [ ] `antidata.id/admin/` muestra la página **404** del sitio, no el formulario de
+      contraseña del admin. Si aparece "ATD · noticias", revisa el paso 8.
+- [ ] Una dirección inventada (`antidata.id/lo-que-sea`) muestra la página **404** del
+      sitio, en el idioma activo, con el enlace para volver.
 
 **Admin, ya publicado** (primero en la versión de prueba
 `dev-newsmgmt.antidata-admin.pages.dev` con `GITHUB_BRANCH=dev-newsmgmt` en Preview, y al
@@ -95,9 +96,8 @@ final en admin.antidata.id):
       del conflicto y no pisa el cambio.
 - [ ] Borrarla (pide confirmación) y restaurarla desde Historial.
 - [ ] Salir: vuelve a pedir contraseña.
-- [ ] `/_lib/auth` y `/functions/_lib/auth.js` del admin **no muestran código** (lo normal
-      es que muestren la pantalla de contraseña: Cloudflare muestra la página principal en
-      las direcciones que no existen, en vez de un 404).
+- [ ] `/_lib/auth` y `/functions/_lib/auth.js` del admin muestran la página **404** del
+      admin ("Esta dirección no existe"), no código.
 - [ ] `admin.antidata.id/robots.txt` dice `Disallow: /`.
 - [ ] La cookie en DevTools → *Application* → *Cookies* es `__Host-atd_sesion` con
       *HttpOnly*, *Secure* y *SameSite Strict*.
