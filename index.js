@@ -49,9 +49,7 @@ if (mediaQuery.addEventListener) {
 const colorModeOverride = leerModoGuardado();
 toggle.checked = colorModeOverride ? (colorModeOverride === 'dark') : mediaQuery.matches;
 
-if (!navigator.language.toLowerCase().startsWith('es')) {
-	document.documentElement.classList.add('en-primero');
-}
+// El idioma inicial (clase en-primero y lang de <html>) se aplica en el <head>
 
 // Selector de idioma del manifiesto: al hacer clic en ES o EN, ese idioma se muestra
 // de inmediato en el manifiesto y en las noticias, y el ciclo de 28s del manifiesto
@@ -72,9 +70,20 @@ const reiniciarAnimacion = (elementos, retraso) => {
 
 const mostrarIdioma = (idioma) => {
 	const otro = idioma === 'es' ? 'en' : 'es';
+	const html = document.documentElement;
 	// Esta clase marca el idioma activo: decide qué idioma se ve en las noticias
 	// y, con movimiento reducido (sin animación), también en el manifiesto
-	document.documentElement.classList.toggle('en-primero', idioma === 'en');
+	html.classList.toggle('en-primero', idioma === 'en');
+	html.setAttribute('lang', idioma);
+	// Se recuerda la elección; si coincide con el idioma del navegador se borra,
+	// para que la página vuelva a seguir la configuración del usuario
+	try {
+		if (idioma === html.getAttribute('data-idioma-navegador')) {
+			window.localStorage.removeItem('idioma');
+		} else {
+			window.localStorage.setItem('idioma', idioma);
+		}
+	} catch (e) {}
 	// -1s salta el fundido de entrada (1s) para que aparezca ya visible;
 	// el otro idioma va medio ciclo (14s) detrás
 	reiniciarAnimacion(animacionesIdioma[idioma], '-1s');

@@ -18,6 +18,26 @@
             if (modoGuardado) document.documentElement.setAttribute('data-force-color-mode', modoGuardado);
         } catch (e) {}
     </script>
+    <script>
+        // Idioma antes de pintar la página (evita parpadeo): el elegido antes con el
+        // selector ES / EN o, si no hay, el primero de la lista de idiomas del navegador
+        // que sea español o inglés. Si no aparece ninguno de los dos, inglés.
+        (function () {
+            var lista = navigator.languages && navigator.languages.length ? navigator.languages : [navigator.language || ''];
+            var idiomaNavegador = 'en';
+            for (var i = 0; i < lista.length; i++) {
+                var base = String(lista[i]).toLowerCase().split('-')[0];
+                if (base === 'es' || base === 'en') { idiomaNavegador = base; break; }
+            }
+            var idioma = null;
+            try { idioma = window.localStorage.getItem('idioma'); } catch (e) {}
+            if (idioma !== 'es' && idioma !== 'en') idioma = idiomaNavegador;
+            var html = document.documentElement;
+            html.setAttribute('data-idioma-navegador', idiomaNavegador);
+            html.setAttribute('lang', idioma);
+            if (idioma === 'en') html.classList.add('en-primero');
+        })();
+    </script>
     <title>antidata</title>
 </head>
 
