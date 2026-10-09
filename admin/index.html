@@ -28,6 +28,8 @@
         <!-- LOGIN -->
         <section id="vista-login" hidden>
             <form id="form-login" class="tarjeta" autocomplete="on">
+                <!-- Usuario fijo e invisible: solo para que el gestor de contraseñas guarde la clave (el servidor lo ignora) -->
+                <input type="text" name="username" value="antidata-admin" autocomplete="username" class="solo-gestor" tabindex="-1" aria-hidden="true" readonly>
                 <label for="clave">Contraseña</label>
                 <input type="password" id="clave" name="password" autocomplete="current-password" required>
                 <button type="submit" class="principal">Entrar</button>
