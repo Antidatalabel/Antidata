@@ -65,19 +65,26 @@ Si alguna vez se borra, se recrea igual: en *DNS* → *Add record* → tipo `CNA
 Para ver el sitio en local, usa Live Server: las noticias se leen con `fetch` y no cargan
 abriendo el archivo directo. `admin/` en Live Server abre un modo de prueba que no guarda.
 
-## Pruebas manuales antes de mergear a `dev`
+## Pruebas manuales
 
-**Sitio público** (Live Server y, después del deploy, antidata.id):
+**Sitio público, en Live Server** (antes de mergear):
 - [ ] Las 3 noticias aparecen igual que antes: textos, portadas, reproductores, año.
 - [ ] Plegar y desplegar funciona; con 1 a 3 noticias empiezan todas abiertas.
 - [ ] El selector ES / EN cambia manifiesto y noticias; al recargar se mantiene la elección.
 - [ ] Modo claro/oscuro: noticias, chevrons y reproductor se ven bien.
 - [ ] Móvil (o DevTools en modo iPhone/iPad): portadas al ancho del reproductor, sin cortes.
 - [ ] Sin JavaScript (DevTools → desactivar JS): aparece el aviso con enlace a Bandcamp.
-- [ ] `antidata.id/robots.txt` devuelve texto, no la página.
-- [ ] `antidata.id/admin/` ya no existe (lo quita el build del sitio).
 
-**Admin** (en admin.antidata.id, idealmente primero con `GITHUB_BRANCH=dev-newsmgmt` en Preview):
+**Sitio público, ya publicado** (en antidata.id, con el paso 8 de la configuración hecho;
+en Live Server estas dos no se pueden probar porque ahí se ven todos los archivos):
+- [ ] `antidata.id/robots.txt` muestra texto (`User-agent: *`), no la página.
+- [ ] `antidata.id/admin/` **no** muestra el formulario de contraseña del admin. Lo normal
+      es que muestre la portada del sitio (Cloudflare muestra la portada en las direcciones
+      que no existen). Si aparece "ATD · noticias", revisa el paso 8.
+
+**Admin, ya publicado** (primero en la versión de prueba
+`dev-newsmgmt.antidata-admin.pages.dev` con `GITHUB_BRANCH=dev-newsmgmt` en Preview, y al
+final en admin.antidata.id):
 - [ ] Sin sesión pide contraseña; una incorrecta da error; la correcta entra.
 - [ ] 5 contraseñas incorrectas seguidas bloquean 15 minutos.
 - [ ] Crear una noticia en **Borrador** con portada: el commit aparece en GitHub con autor
