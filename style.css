@@ -435,6 +435,60 @@ p {
     animation-delay: 0s;
 }
 
+/* Alto reservado mientras se cargan las noticias desde data/news.json,
+   para que la página no salte cuando aparecen */
+.noticias-cargando {
+    min-height: 100vh;
+}
+
+/* Paginación de noticias: solo aparece si hay más de una página */
+.paginacion {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.25rem;
+    margin-top: 1rem;
+    font-family: var(--fuente-2);
+    font-size: 0.9rem;
+}
+
+.paginacion button {
+    -webkit-appearance: none;
+    appearance: none;
+    background: none;
+    border: 0;
+    border-radius: 0;
+    -webkit-tap-highlight-color: transparent;
+    /* Área de toque cómoda en el celular */
+    min-width: 2.75rem;
+    min-height: 2.75rem;
+    padding: 0 0.5rem;
+    font: inherit;
+    letter-spacing: 2px;
+    color: var(--color-fuente);
+    opacity: 0.5;
+    cursor: pointer;
+}
+
+.paginacion button[aria-current="page"] {
+    opacity: 1;
+    font-weight: 700;
+    text-decoration: underline;
+}
+
+.paginacion button:disabled {
+    opacity: 0.15;
+    cursor: default;
+}
+
+/* Foco visible al navegar con teclado (la regla global *:focus lo quita) */
+.paginacion button:focus-visible,
+.manifiesto-idiomas button:focus-visible {
+    outline: 1px dashed var(--color-fuente) !important;
+    outline-offset: 2px;
+}
+
 /* NOTICIAS BILINGÜES: se muestra solo el idioma activo, el del navegador o el
    elegido con el selector ES / EN del manifiesto (que cambia la clase en-primero) */
 .noticia-texto[lang="en"],

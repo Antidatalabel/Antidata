@@ -1,0 +1,10 @@
+# Cabeceras de admin.antidata.id (Cloudflare Pages)
+/*
+  X-Robots-Tag: noindex, nofollow
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: DENY
+  Referrer-Policy: no-referrer
+  Permissions-Policy: camera=(), microphone=(), geolocation=()
+  Strict-Transport-Security: max-age=31536000
+  Content-Security-Policy: default-src 'none'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' https://antidata.id data: blob:; connect-src 'self'; frame-src 'self'; base-uri 'self' https://antidata.id; form-action 'self'; frame-ancestors 'none'
+  Cache-Control: no-cache

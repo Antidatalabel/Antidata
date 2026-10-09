@@ -1,3 +1,6 @@
 index2.html
 index - CON COMMENTS PARA MAS POSTS.html
 .claude/
+# Copias que hace el build del admin (Cloudflare Pages) desde la raíz
+admin/vista/style.css
+admin/vista/noticias.js

@@ -1,0 +1,89 @@
+{
+  "version": 1,
+  "noticias": [
+    {
+      "id": "atd-003-piedra-del-lobo",
+      "fecha": "2026-01-01",
+      "estado": "publicada",
+      "tipo": "lanzamiento",
+      "titulo": "Piedra del Lobo EP",
+      "subtitulo": "ATD003 - Piedra del Lobo",
+      "catalogo": "ATD-003",
+      "artista": "Eduardo Only",
+      "portada": "img/art/eduardoonlypiedradellobo.jpg",
+      "portadaAlt": "",
+      "portadaTamanos": [
+        64,
+        400,
+        800,
+        1200,
+        2000
+      ],
+      "bandcamp": {
+        "album": "1677673988",
+        "url": "https://antidatalabel.bandcamp.com/album/piedra-del-lobo",
+        "texto": "Piedra del Lobo by Eduardo Only"
+      },
+      "cuerpo": {
+        "es": "Eduardo Only es un artista electrónico de Concepción que durante la última década ha publicado en distintos sellos, tanto con sus diversos alias como con su banda Garay Palma. Ahora llega a ANTIDATA con \"Piedra del Lobo\".\n\nNuestra tercera entrega como sello cuenta con cuatro tracks que se mueven entre ambient, electro e IDM.\n\nEl EP toma su nombre de una piedra cercana al hogar del artista, un lugar donde los lobos marinos se tienden al sol y descansan frente al mar.",
+        "en": "Eduardo Only is an electronic artist from Concepción who has released music on various labels over the past decade, both under his many aliases and with his band Garay Palma. Now he joins ANTIDATA with \"Piedra del Lobo\".\n\nOur third release as a label features four tracks that move between ambient, electro and IDM.\n\nThe EP takes its name from a rock near the artist's home, a place where sea lions stretch out in the sun and rest by the sea."
+      }
+    },
+    {
+      "id": "atd-002-ectotermia",
+      "fecha": "2026-01-01",
+      "estado": "publicada",
+      "tipo": "lanzamiento",
+      "titulo": "Ectotermia EP",
+      "subtitulo": "ATD002 - Ectotermia",
+      "catalogo": "ATD-002",
+      "artista": "Zetor",
+      "portada": "img/art/zetorectotermia.jpg",
+      "portadaAlt": "",
+      "portadaTamanos": [
+        64,
+        400,
+        800,
+        1200,
+        2000
+      ],
+      "bandcamp": {
+        "album": "2969377301",
+        "url": "https://antidatalabel.bandcamp.com/album/ectotermia",
+        "texto": "Ectotermia by Zetor"
+      },
+      "cuerpo": {
+        "es": "Cuatro temas armados a punta de prueba y error, entre drum machines, hardware, software y cualquier recurso que pareció tener sentido en el momento.\nEctotermia se mueve entre el electro, el downtempo y el IDM, con un pulso funky que atraviesa el disco sin renegar de su propio sonido.\n\nIncluye remixes por Seudo Plot y René Roco",
+        "en": "Four tracks built through trial and error, using drum machines, hardware, software and whatever else made sense in the moment.\nEctotermia moves between electro, downtempo and IDM, with a funky pulse running through the record without disowning its own sound.\n\nIncludes remixes by Seudo Plot and René Roco"
+      }
+    },
+    {
+      "id": "atd-001-figurita",
+      "fecha": "2026-01-01",
+      "estado": "publicada",
+      "tipo": "lanzamiento",
+      "titulo": "Figurita EP",
+      "subtitulo": "ATD001 - Figurita",
+      "catalogo": "ATD-001",
+      "artista": "Seudo Plot",
+      "portada": "img/art/seudoplotfigurita.jpg",
+      "portadaAlt": "",
+      "portadaTamanos": [
+        64,
+        400,
+        800,
+        1200,
+        2000
+      ],
+      "bandcamp": {
+        "album": "3930033820",
+        "url": "https://antidatalabel.bandcamp.com/album/figurita",
+        "texto": "Figurita by Seudo Plot"
+      },
+      "cuerpo": {
+        "es": "**Figurita** no es conceptual ni lineal. Producciones forjadas por la experimentación y la casualidad a lo largo de cinco años, que fueron adquiriendo carácter al revisitarse tras largos periodos de pausa. Comparten el mismo espacio, mente y contexto: una mezcla de estilos y emociones decantada en un cóctel sin forma establecida, pero con referencias claras.\n\nIncluye remixes por Kytao Debuya y Zetor",
+        "en": "**Figurita** is neither conceptual nor linear. Productions forged through experimentation and chance throughout five years, that gradually took on character as they were revisited after long periods of pause. They share the same space, mind, and context: a blend of styles and emotions distilled into a cocktail with no established form, but with clear references.\n\nIncludes remixes by Kytao Debuya and Zetor"
+      }
+    }
+  ]
+}

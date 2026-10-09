@@ -1,0 +1,7 @@
+# Cabeceras del sitio público (Cloudflare Pages)
+
+# Noticias: el navegador siempre revalida (respuesta 304 de pocos bytes si no cambió),
+# así una noticia nueva aparece en la siguiente visita sin esperar a que venza una caché
+/data/news.json
+  Cache-Control: public, max-age=0, must-revalidate
+  X-Content-Type-Options: nosniff
