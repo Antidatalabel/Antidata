@@ -243,6 +243,15 @@ p {
     height: auto;
 }
 
+/* Desde 1200px la portada va al lado del texto: se separa del borde izquierdo y,
+   si la columna no alcanza, se achica en vez de desbordarse hacia el texto */
+@media (min-width: 1200px) {
+    .arte-body {
+        margin-left: 1rem;
+        max-width: calc(100% - 1rem);
+    }
+}
+
 /* Bajo 1200px la portada va sobre el reproductor: mismo ancho que él */
 @media (max-width: 1199.98px) {
     .arte-body {
@@ -419,6 +428,17 @@ p {
 .en-primero .manifiesto-en,
 .en-primero .idioma-en {
     animation-delay: 0s;
+}
+
+/* NOTICIAS BILINGÜES: se muestra solo el idioma activo, el del navegador o el
+   elegido con el selector ES / EN del manifiesto (que cambia la clase en-primero) */
+.noticia-texto[lang="en"],
+.en-primero .noticia-texto[lang="es"] {
+    display: none;
+}
+
+.en-primero .noticia-texto[lang="en"] {
+    display: block;
 }
 
 /* Movimiento reducido: sin animación. Se muestra un solo idioma, el del navegador
