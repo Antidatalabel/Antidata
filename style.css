@@ -400,9 +400,14 @@ p {
     animation: idioma-activo 28s infinite;
 	font-size: 0.8em;
     /* Botones con el mismo aspecto que el texto */
+    -webkit-appearance: none;
+    appearance: none;
     background: none;
     border: 0;
+    border-radius: 0;
     padding: 0;
+    /* Sin el resaltado gris que muestran los celulares al tocar */
+    -webkit-tap-highlight-color: transparent;
     font-family: inherit;
     letter-spacing: inherit;
     color: inherit;
