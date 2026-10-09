@@ -56,72 +56,94 @@ conectarlo (pasos 3 y 6); no tienes que tocarlo nunca más.
 
 La contraseña en sí no se guarda en ningún lado: si la olvidas, se genera otra con este mismo script.
 
+> **Cómo encontrar los menús de Cloudflare.** El panel cambia de nombres y de lugar seguido.
+> Si un menú no aparece donde dice esta guía, usa el **buscador** de arriba del panel
+> (lupa o **Ctrl+K**) y escribe el nombre en inglés: `Workers & Pages` o `KV`. Los nombres
+> de botones de esta guía están revisados con la documentación oficial de Cloudflare.
+
 ## Paso 3 — Espacio KV
 
-1. Entra a <https://dash.cloudflare.com> → menú izquierdo **Storage & Databases** → **KV**
-   (en algunas cuentas aparece como **Workers & Pages → KV**).
-2. **Create a namespace** → nombre: `antidata-admin-intentos` → **Add**.
+1. Entra a <https://dash.cloudflare.com> y elige tu cuenta.
+2. Abre la página **Workers KV**: en el menú izquierdo suele estar dentro de
+   **Storage & databases**; si no la ves, búscala con Ctrl+K escribiendo `KV`.
+3. Botón **Create instance** (en versiones anteriores del panel: *Create a namespace*).
+4. Nombre: `antidata-admin-intentos` → **Create**.
 
 ## Paso 4 — Proyecto de Pages para el admin
 
-1. **Workers & Pages** → **Create** → pestaña **Pages** → **Connect to Git**.
-2. Elige el repo `Antidatalabel/Antidata` → **Begin setup**.
-3. Completa:
+1. Abre la página **Workers & Pages** (menú izquierdo, a veces dentro de **Compute**;
+   o Ctrl+K → `Workers & Pages`). Ahí ya está tu proyecto `antidata`.
+2. Botón **Create application** → elige **Pages** (no *Workers*) → **Connect to Git**.
+   - Si solo ves opciones de *Workers*, busca en esa misma pantalla el enlace
+     **Pages** o *Looking to deploy Pages?*.
+3. Elige la cuenta de GitHub y el repo `Antidatalabel/Antidata` → **Begin setup**.
+   (Si GitHub pide permisos, **Install & Authorize** con acceso a ese repo.)
+4. En **Set up builds and deployments** completa:
    - **Project name:** `antidata-admin`
    - **Production branch:** `main`
    - **Framework preset:** *None*
    - **Build command:** `cp ../style.css ../noticias.js vista/`
    - **Build output directory:** `.`
-   - **Root directory (advanced):** `admin`
-4. **Save and Deploy**. El primer deploy puede fallar o mostrar el aviso de configuración
-   incompleta: es normal, faltan los pasos 5 y 6.
+   - Despliega **Root directory (advanced)** → **Path:** `admin`
+   - **Environment variables (optional):** déjalo vacío; se agregan en el paso 5.
+5. **Save and Deploy**. **Este primer deploy va a fallar** (en `main` todavía no existe la
+   carpeta `admin/`). Es lo esperado: el proyecto queda creado igual.
 
 ## Paso 5 — Variables y secretos
 
-En el proyecto `antidata-admin` → **Settings** → **Variables and Secrets** → **Add**.
-Agrega estas, en **Production** (y repítelas en **Preview** si quieres probar con ramas):
+1. **Workers & Pages** → proyecto `antidata-admin` → pestaña **Settings**.
+2. Arriba de Settings hay un selector de entorno (**Production** / **Preview**). Empieza con
+   **Production**.
+3. Sección **Variables and Secrets** → **Add**. Por cada fila de la tabla: escribe el nombre
+   y el valor; en las de tipo *Secret* elige el tipo **Secret** (o marca **Encrypt**, según
+   cómo lo muestre tu panel). Al terminar, **Save**.
+4. Cambia el selector a **Preview** y repítelas (con `GITHUB_BRANCH` = `dev-newsmgmt`).
 
-| Nombre | Tipo | Valor |
-|---|---|---|
-| `ADMIN_PASSWORD_HASH` | **Secret** | el valor del paso 2 |
-| `SESSION_SECRET` | **Secret** | el valor del paso 2 |
-| `GITHUB_TOKEN` | **Secret** | el token del paso 1 |
-| `GITHUB_REPO` | Text | `Antidatalabel/Antidata` |
-| `GITHUB_BRANCH` | Text | `main` (en Preview: `dev-newsmgmt`, para probar sin tocar el sitio) |
-| `COMMIT_AUTOR_NOMBRE` | Text | `zetor` |
-| `COMMIT_AUTOR_EMAIL` | Text | `268057403+Antidatalabel@users.noreply.github.com` |
+| Nombre | Tipo | Valor en Production | Valor en Preview |
+|---|---|---|---|
+| `ADMIN_PASSWORD_HASH` | **Secret** | el valor del paso 2 | el mismo |
+| `SESSION_SECRET` | **Secret** | el valor del paso 2 | el mismo |
+| `GITHUB_TOKEN` | **Secret** | el token del paso 1 | el mismo |
+| `GITHUB_REPO` | Text | `Antidatalabel/Antidata` | el mismo |
+| `GITHUB_BRANCH` | Text | `main` | `dev-newsmgmt` |
+| `COMMIT_AUTOR_NOMBRE` | Text | `zetor` | el mismo |
+| `COMMIT_AUTOR_EMAIL` | Text | `268057403+Antidatalabel@users.noreply.github.com` | el mismo |
+
+Copia y pega los valores sin espacios al principio ni al final.
 
 ## Paso 6 — Conectar el KV
 
-En el mismo proyecto → **Settings** → **Bindings** (o **Functions → KV namespace bindings**)
-→ **Add** → **KV namespace**:
-- **Variable name:** `INTENTOS`
-- **KV namespace:** `antidata-admin-intentos`
+1. Mismo proyecto → **Settings** → sección **Bindings** → **Add** → **KV namespace**.
+2. **Variable name:** `INTENTOS` (en mayúsculas, exactamente así).
+3. **KV namespace:** elige `antidata-admin-intentos` → **Save**.
+4. Repite con el selector de entorno en **Preview**.
 
-Hazlo en Production y en Preview.
+## Paso 7 — Subdominio admin.antidata.id (después del merge a `main`)
 
-## Paso 7 — Subdominio admin.antidata.id
-
-En el proyecto `antidata-admin` → **Custom domains** → **Set up a custom domain** →
-`admin.antidata.id` → **Continue** → **Activate domain**. Como tu DNS ya está en Cloudflare,
-el registro se crea solo. Tarda unos minutos.
+1. Proyecto `antidata-admin` → pestaña **Custom domains** → **Set up a domain**.
+2. Escribe `admin.antidata.id` → **Continue**.
+3. Confirma el registro DNS (**Activate domain**). Como el DNS de antidata.id está en
+   Cloudflare, el registro `CNAME` se crea solo. Tarda unos minutos en quedar *Active*.
 
 ## Paso 8 — Ajustes del proyecto del sitio público (`antidata`)
 
 Para que el sitio no publique las carpetas del admin y no se reconstruya cuando solo cambia el admin:
 
-1. Proyecto `antidata` → **Settings** → **Build** → **Build configuration** → **Edit**:
+1. **Workers & Pages** → proyecto `antidata` → **Settings** → sección **Build** →
+   **Build configuration** → **Edit**:
    - **Build command:** `rm -rf admin herramientas docs README.md`
    - **Build output directory:** `/` (déjalo como está si ya es así)
-2. **Settings** → **Build** → **Build watch paths** → **Exclude paths:** `admin/*`, `herramientas/*`, `docs/*`, `README.md`
+   → **Save**.
+2. Misma sección **Build** → **Build watch paths** → **Edit** → **Exclude paths:**
+   `admin/*`, `herramientas/*`, `docs/*`, `README.md` → **Save**.
 
-Y en el proyecto `antidata-admin` → **Build watch paths** → **Include paths:**
+Y en el proyecto `antidata-admin` → **Settings** → **Build** → **Build watch paths** → **Include paths:**
 `admin/*`, `noticias.js`, `style.css` (así no se reconstruye con cada noticia nueva).
 
 ## Paso 9 — Volver a publicar y probar
 
-1. Proyecto `antidata-admin` → **Deployments** → en el último → **⋯** → **Retry deployment**
-   (para que tome las variables y el KV).
+1. Proyecto `antidata-admin` → pestaña **Deployments** → en el último deploy, menú **⋯**
+   (tres puntos) → **Retry deployment** (para que tome las variables y el KV).
 2. Abre <https://admin.antidata.id> y entra con tu contraseña.
 3. Sigue la lista de pruebas manuales de [README.md](../README.md).
 
