@@ -103,177 +103,15 @@
 
         <!-- ACORDEÓN DE TRACKS Y NOTICIAS -->
 
-        <div class="accordion accordion-flush mt-5" id="accordion">
+        <!-- Las noticias se cargan desde data/news.json (noticias.js). No se escriben aquí:
+             se crean, editan y borran desde el admin. -->
+        <div class="accordion accordion-flush mt-5 noticias-cargando" id="accordion" data-noticias="data/news.json">
+            <noscript>
+                <p class="centrado">Las noticias necesitan JavaScript. Escúchanos en <a href="https://antidatalabel.bandcamp.com/">Bandcamp</a>.</p>
+                <p class="centrado" lang="en">News require JavaScript. Listen to us on <a href="https://antidatalabel.bandcamp.com/">Bandcamp</a>.</p>
+            </noscript>
+        </div>
 
-			<!-- ACORDEÓN DE TRACKS Y NOTICIAS
-
-             MODO: paneles independientes. Para que al abrir uno se cierren los demás,
-             renombrar data-bs-parent-off a data-bs-parent en cada panel.
-
-             ESTADO INICIAL DE CADA LANZAMIENTO:
-             Abierto: botón class="accordion-button" + aria-expanded="true"
-                      panel class="accordion-collapse collapse show"
-             Cerrado: botón class="accordion-button collapsed" + aria-expanded="false"
-                      panel class="accordion-collapse collapse"
-
-             NUEVO LANZAMIENTO: copiar un bloque y cambiar el número en
-             header-itemN (2 veces) y body-itemN (3 veces). -->
-<!-- 3ER ELEMENTO - TRACK #3 -->
-
-          <div class="accordion-item">
-                <h2 class="accordion-header" id="header-item3">
-                    <button class="accordion-button" type="button" data-bs-toggle="collapse"
-                        data-bs-target="#body-item3" aria-expanded="true" aria-controls="body-item3">
-                        <div class="container">
-                            <div class="row">
-                                <div class="col-3">
-                                    ATD-003 / Piedra del Lobo EP
-                                </div>
-                                <div class="col-3">
-                                    by <span class="destacado">Eduardo Only</span>
-                                </div>
-                                <div class="col-3">
-                                    2026
-                                </div>
-                                <div class="col-3">
-                                    <img class="arte-header" alt="" src="./img/art/eduardoonlypiedradellobo.jpg">
-                                </div>
-                            </div>
-                        </div>
-                    </button>
-                </h2>
-                <div id="body-item3" class="accordion-collapse collapse show" aria-labelledby="header-item3"
-                data-bs-parent-off="#accordion">
-                    <div class="accordion-body">
-                        <div class="container">
-                            <div class="row">
-                                 <div class="col-12 col-xl-4">
-                                    <img class="arte-body" alt="" src="./img/art/eduardoonlypiedradellobo.jpg">
-                                </div>
-                                <div class="col-12 col-xl-8">                                    
-                                    <div class="reproductor"><iframe class="iframe" src="https://bandcamp.com/EmbeddedPlayer/album=1677673988/size=small/bgcol=transparent/linkcol=0687f5/transparent=true/" seamless><a href="https://antidatalabel.bandcamp.com/album/piedra-del-lobo">Piedra del Lobo by Eduardo Only</a></iframe></div>
-                                    <p class="mt-3 pe-xl-5"></p>
-                                    <p class="pe-xl-5"><span class="destacado">ATD003 - Piedra del Lobo</span></p>
-                                    <div class="noticia-texto" lang="es">
-                                    <p class="pe-xl-5">Eduardo Only es un artista electrónico de Concepción que durante la última década ha publicado en distintos sellos, tanto con sus diversos alias como con su banda Garay Palma. Ahora llega a ANTIDATA con "Piedra del Lobo".</p>
-                                    <p class="pe-xl-5">Nuestra tercera entrega como sello cuenta con cuatro tracks que se mueven entre ambient, electro e IDM.</p>
-									<p class="pe-xl-5">El EP toma su nombre de una piedra cercana al hogar del artista, un lugar donde los lobos marinos se tienden al sol y descansan frente al mar.</p>
-                                    </div>
-                                    <div class="noticia-texto" lang="en">
-                                    <p class="pe-xl-5">Eduardo Only is an electronic artist from Concepción who has released music on various labels over the past decade, both under his many aliases and with his band Garay Palma. Now he joins ANTIDATA with "Piedra del Lobo".</p>
-                                    <p class="pe-xl-5">Our third release as a label features four tracks that move between ambient, electro and IDM.</p>
-									<p class="pe-xl-5">The EP takes its name from a rock near the artist's home, a place where sea lions stretch out in the sun and rest by the sea.</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-<!-- 2DO ELEMENTO - TRACK #2 -->
-
-          <div class="accordion-item">
-                <h2 class="accordion-header" id="header-item2">
-                    <button class="accordion-button" type="button" data-bs-toggle="collapse"
-                        data-bs-target="#body-item2" aria-expanded="true" aria-controls="body-item2">
-                        <div class="container">
-                            <div class="row">
-                                <div class="col-3">
-                                    ATD-002 / Ectotermia EP
-                                </div>
-                                <div class="col-3">
-                                    by <span class="destacado">Zetor</span>
-                                </div>
-                                <div class="col-3">
-                                    2026
-                                </div>
-                                <div class="col-3">
-                                    <img class="arte-header" alt="" src="./img/art/zetorectotermia.jpg">
-                                </div>
-                            </div>
-                        </div>
-                    </button>
-                </h2>
-                <div id="body-item2" class="accordion-collapse collapse show" aria-labelledby="header-item2"
-                    data-bs-parent-off="#accordion">
-                    <div class="accordion-body">
-                        <div class="container">
-                            <div class="row">
-                                 <div class="col-12 col-xl-4">
-                                    <img class="arte-body" alt="" src="./img/art/zetorectotermia.jpg">
-                                </div>
-                                <div class="col-12 col-xl-8">                                    
-                                    <div class="reproductor"><iframe class="iframe" src="https://bandcamp.com/EmbeddedPlayer/album=2969377301/size=small/bgcol=transparent/linkcol=0687f5/transparent=true/" seamless><a href="https://antidatalabel.bandcamp.com/album/ectotermia">Ectotermia by Zetor</a></iframe></div>
-                                    <p class="mt-3 pe-xl-5"></p>
-                                    <p class="pe-xl-5"><span class="destacado">ATD002 - Ectotermia</span></p>
-                                    <div class="noticia-texto" lang="es">
-                                    <p class="pe-xl-5">Cuatro temas armados a punta de prueba y error, entre drum machines, hardware, software y cualquier recurso que pareció tener sentido en el momento.
-Ectotermia se mueve entre el electro, el downtempo y el IDM, con un pulso funky que atraviesa el disco sin renegar de su propio sonido.</p>
-                                    <p class="pe-xl-5">Incluye remixes por Seudo Plot y René Roco</p>
-                                    </div>
-                                    <div class="noticia-texto" lang="en">
-                                    <p class="pe-xl-5">Four tracks built through trial and error, using drum machines, hardware, software and whatever else made sense in the moment.
-Ectotermia moves between electro, downtempo and IDM, with a funky pulse running through the record without disowning its own sound.</p>
-                                    <p class="pe-xl-5">Includes remixes by Seudo Plot and René Roco</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- 1ER ELEMENTO - TRACK #1 -->
-
-            <div class="accordion-item">
-                <h2 class="accordion-header" id="header-item1">
-                    <button class="accordion-button" type="button" data-bs-toggle="collapse"
-                        data-bs-target="#body-item1" aria-expanded="true" aria-controls="body-item1">
-                        <div class="container">
-                            <div class="row">
-                                <div class="col-3">
-                                    ATD-001 / Figurita EP
-                                </div>
-                                <div class="col-3">
-                                    by <span class="destacado">Seudo Plot</span>
-                                </div>
-                                <div class="col-3">
-                                    2026
-                                </div>
-                                <div class="col-3">
-                                    <img class="arte-header" alt="" src="./img/art/seudoplotfigurita.jpg">
-                                </div>
-                            </div>
-                        </div>
-                    </button>
-                </h2>
-                <div id="body-item1" class="accordion-collapse collapse show" aria-labelledby="header-item1"
-                    data-bs-parent-off="#accordion">
-                    <div class="accordion-body">
-                        <div class="container">
-                            <div class="row">
-                                <div class="col-12 col-xl-4">
-                                    <img class="arte-body" alt="" src="./img/art/seudoplotfigurita.jpg">
-                                </div>
-                                <div class="col-12 col-xl-8">                                    
-                                   <div class="reproductor"><iframe class="iframe" src="https://bandcamp.com/EmbeddedPlayer/album=3930033820/size=small/bgcol=transparent/linkcol=0687f5/transparent=true/" seamless><a href="https://antidatalabel.bandcamp.com/album/figurita">Figurita by Seudo Plot</a></iframe></div>
-                                   <p class="mt-3 pe-xl-5"></p>
-                                    <p class="pe-xl-5"><span class="destacado">ATD001 - Figurita</span></p>
-                                    <div class="noticia-texto" lang="es">
-                                    <p class="pe-xl-5"><span class="destacado">Figurita</span> no es conceptual ni lineal. Producciones forjadas por la experimentación y la casualidad a lo largo de cinco años, que fueron adquiriendo carácter al revisitarse tras largos periodos de pausa. Comparten el mismo espacio, mente y contexto: una mezcla de estilos y emociones decantada en un cóctel sin forma establecida, pero con referencias claras.</p>
-                                    <p class="pe-xl-5">Incluye remixes por Kytao Debuya y Zetor</p>
-                                    </div>
-                                    <div class="noticia-texto" lang="en">
-                                    <p class="pe-xl-5"><span class="destacado">Figurita</span> is neither conceptual nor linear. Productions forged through experimentation and chance throughout five years, that gradually took on character as they were revisited after long periods of pause. They share the same space, mind, and context: a blend of styles and emotions distilled into a cocktail with no established form, but with clear references.</p>
-                                    <p class="pe-xl-5">Includes remixes by Kytao Debuya and Zetor</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-		</div>
         <!-- FOOTER - TEXTO FINAL -->
 
         <div class="footer-parent">
@@ -281,6 +119,7 @@ Ectotermia moves between electro, downtempo and IDM, with a funky pulse running 
         </div>
         
     </div>
+    <script type="text/javascript" src="./noticias.js"></script>
     <script type="text/javascript" src="./index.js"></script>
 
 </body>
