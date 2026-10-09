@@ -111,9 +111,9 @@ el registro se crea solo. Tarda unos minutos.
 Para que el sitio no publique las carpetas del admin y no se reconstruya cuando solo cambia el admin:
 
 1. Proyecto `antidata` → **Settings** → **Build** → **Build configuration** → **Edit**:
-   - **Build command:** `rm -rf admin herramientas docs`
+   - **Build command:** `rm -rf admin herramientas docs README.md`
    - **Build output directory:** `/` (déjalo como está si ya es así)
-2. **Settings** → **Build** → **Build watch paths** → **Exclude paths:** `admin/*`, `herramientas/*`, `docs/*`
+2. **Settings** → **Build** → **Build watch paths** → **Exclude paths:** `admin/*`, `herramientas/*`, `docs/*`, `README.md`
 
 Y en el proyecto `antidata-admin` → **Build watch paths** → **Include paths:**
 `admin/*`, `noticias.js`, `style.css` (así no se reconstruye con cada noticia nueva).
@@ -123,7 +123,7 @@ Y en el proyecto `antidata-admin` → **Build watch paths** → **Include paths:
 1. Proyecto `antidata-admin` → **Deployments** → en el último → **⋯** → **Retry deployment**
    (para que tome las variables y el KV).
 2. Abre <https://admin.antidata.id> y entra con tu contraseña.
-3. Sigue la lista de pruebas manuales del README.
+3. Sigue la lista de pruebas manuales de [README.md](../README.md).
 
 ## Opcional — Cerrar las URLs de prueba
 

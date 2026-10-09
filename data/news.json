@@ -12,6 +12,13 @@
       "artista": "Eduardo Only",
       "portada": "img/art/eduardoonlypiedradellobo.jpg",
       "portadaAlt": "",
+      "portadaTamanos": [
+        64,
+        400,
+        800,
+        1200,
+        2000
+      ],
       "bandcamp": {
         "album": "1677673988",
         "url": "https://antidatalabel.bandcamp.com/album/piedra-del-lobo",
@@ -33,6 +40,13 @@
       "artista": "Zetor",
       "portada": "img/art/zetorectotermia.jpg",
       "portadaAlt": "",
+      "portadaTamanos": [
+        64,
+        400,
+        800,
+        1200,
+        2000
+      ],
       "bandcamp": {
         "album": "2969377301",
         "url": "https://antidatalabel.bandcamp.com/album/ectotermia",
@@ -54,6 +68,13 @@
       "artista": "Seudo Plot",
       "portada": "img/art/seudoplotfigurita.jpg",
       "portadaAlt": "",
+      "portadaTamanos": [
+        64,
+        400,
+        800,
+        1200,
+        2000
+      ],
       "bandcamp": {
         "album": "3930033820",
         "url": "https://antidatalabel.bandcamp.com/album/figurita",
