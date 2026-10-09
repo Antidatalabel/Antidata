@@ -54,7 +54,8 @@ if (!navigator.language.toLowerCase().startsWith('es')) {
 }
 
 // Selector de idioma del manifiesto: al hacer clic en ES o EN, ese idioma se muestra
-// de inmediato y el ciclo de 28s se reinicia para darle su tiempo completo de lectura
+// de inmediato en el manifiesto y en las noticias, y el ciclo de 28s del manifiesto
+// se reinicia para darle su tiempo completo de lectura
 const animacionesIdioma = {
 	es: document.querySelectorAll('.manifiesto-texto[lang="es"], .manifiesto-idiomas .idioma-es'),
 	en: document.querySelectorAll('.manifiesto-texto[lang="en"], .manifiesto-idiomas .idioma-en')
@@ -71,7 +72,8 @@ const reiniciarAnimacion = (elementos, retraso) => {
 
 const mostrarIdioma = (idioma) => {
 	const otro = idioma === 'es' ? 'en' : 'es';
-	// Con movimiento reducido no hay animación: esta clase decide qué idioma se ve
+	// Esta clase marca el idioma activo: decide qué idioma se ve en las noticias
+	// y, con movimiento reducido (sin animación), también en el manifiesto
 	document.documentElement.classList.toggle('en-primero', idioma === 'en');
 	// -1s salta el fundido de entrada (1s) para que aparezca ya visible;
 	// el otro idioma va medio ciclo (14s) detrás
