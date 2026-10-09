@@ -113,6 +113,8 @@
 				atributos.sizes = '(min-width: 1200px) 350px, 100vw';
 			}
 		}
+		// La portada grande de una noticia plegada no se descarga hasta desplegarla
+		if (!enBarra) atributos.loading = 'lazy';
 		return atributos;
 	};
 
@@ -138,18 +140,34 @@
 		el('div', { class: 'col' }, [fechaCorta(noticia)])
 	];
 
-	const reproductor = (bandcamp) => {
+	// El reproductor de una noticia plegada se crea sin src (lo guarda en data-src) y se
+	// carga al desplegarla: Chrome ignora loading=lazy en iframes ocultos y los cargaría todos
+	const reproductor = (bandcamp, abierta) => {
 		if (!bandcamp || !/^\d+$/.test(texto(bandcamp.album))) return null;
 		const enlace = ENLACE_PERMITIDO.test(texto(bandcamp.url)) ? el('a', { href: bandcamp.url }, [texto(bandcamp.texto)]) : null;
+		const direccion = BANDCAMP + bandcamp.album + BANDCAMP_OPCIONES;
 		return el('div', { class: 'reproductor' }, [
-			el('iframe', { class: 'iframe', src: BANDCAMP + bandcamp.album + BANDCAMP_OPCIONES, seamless: '' }, enlace ? [enlace] : [])
+			el('iframe', {
+				class: 'iframe',
+				src: abierta ? direccion : null,
+				'data-src': abierta ? null : direccion,
+				seamless: ''
+			}, enlace ? [enlace] : [])
 		]);
 	};
 
-	const cuerpoLanzamiento = (noticia) => [
+	// Al desplegar una noticia se cargan sus reproductores pendientes
+	document.addEventListener('show.bs.collapse', (evento) => {
+		evento.target.querySelectorAll('iframe[data-src]').forEach((iframe) => {
+			iframe.setAttribute('src', iframe.getAttribute('data-src'));
+			iframe.removeAttribute('data-src');
+		});
+	});
+
+	const cuerpoLanzamiento = (noticia, abierta) => [
 		el('div', { class: 'col-12 col-xl-4' }, imagenValida(noticia.portada) ? [el('img', atributosPortada(noticia, 'arte-body', false))] : []),
 		el('div', { class: 'col-12 col-xl-8' }, [
-			reproductor(noticia.bandcamp),
+			reproductor(noticia.bandcamp, abierta),
 			el('p', { class: 'mt-3 pe-xl-5' }),
 			noticia.subtitulo ? el('p', { class: 'pe-xl-5' }, [el('span', { class: 'destacado' }, [noticia.subtitulo])]) : null
 		].filter(Boolean).concat(bloquesIdioma(noticia.cuerpo, 'pe-xl-5')))
@@ -167,8 +185,11 @@
 	};
 
 	// Un elemento del acordeón con el mismo marcado que se escribía a mano
+	// opciones.abierta: desplegada al cargar (por defecto sí)
+	// opciones.exclusiva: al abrirla se pliegan las demás (data-bs-parent de Bootstrap)
 	const crearItem = (noticia, opciones) => {
 		const abierta = !opciones || opciones.abierta !== false;
+		const exclusiva = !!(opciones && opciones.exclusiva);
 		const id = texto(noticia.id).replace(/[^a-z0-9-]/gi, '') || 'noticia';
 		const esLanzamiento = noticia.tipo !== 'noticia';
 		const header = 'header-' + id;
@@ -189,10 +210,11 @@
 			id: body,
 			class: 'accordion-collapse collapse' + (abierta ? ' show' : ''),
 			'aria-labelledby': header,
-			'data-bs-parent-off': '#accordion'
+			'data-bs-parent': exclusiva ? '#accordion' : null,
+			'data-bs-parent-off': exclusiva ? null : '#accordion'
 		}, [el('div', { class: 'accordion-body' }, [
 			el('div', { class: esLanzamiento ? 'container' : 'container mt-3' }, [
-				el('div', { class: 'row' }, esLanzamiento ? cuerpoLanzamiento(noticia) : cuerpoNoticia(noticia))
+				el('div', { class: 'row' }, esLanzamiento ? cuerpoLanzamiento(noticia, abierta) : cuerpoNoticia(noticia))
 			])
 		])]);
 
@@ -209,10 +231,29 @@
 		.sort((a, b) => (a.noticia.fecha === b.noticia.fecha ? a.indice - b.indice : (a.noticia.fecha < b.noticia.fecha ? 1 : -1)))
 		.map((x) => x.noticia);
 
-	const renderizar = (contenedor, noticias, opciones) => {
-		const fragmento = document.createDocumentFragment();
-		ordenar(noticias).forEach((noticia) => fragmento.appendChild(crearItem(noticia, opciones)));
+	// Cuántas noticias empiezan desplegadas según el total publicado (solo en la
+	// primera página, las más recientes). Desde LIMITE_EXCLUSIVA noticias, abrir una
+	// pliega las demás. Valores medidos: en móvil caben 6 plegadas por pantalla y en
+	// escritorio caben 1 o 2 desplegadas.
+	const abiertasIniciales = (total) => (total <= 3 ? total : (total <= 5 ? 2 : 1));
+	const LIMITE_EXCLUSIVA = 6;
+
+	// Opciones por defecto para un conjunto de noticias ya ordenadas
+	const opcionesPara = (indice, total) => ({
+		abierta: indice < abiertasIniciales(total),
+		exclusiva: total >= LIMITE_EXCLUSIVA
+	});
+
+	const crearItems = (noticias) => {
+		const publicadas = ordenar(noticias);
+		return publicadas.map((noticia, i) => crearItem(noticia, opcionesPara(i, publicadas.length)));
+	};
+
+	// Dibuja todas las noticias publicadas (sin paginar); lo usa la vista previa del admin
+	const renderizar = (contenedor, noticias) => {
 		contenedor.querySelectorAll('.accordion-item, .noticias-error').forEach((n) => n.parentNode.removeChild(n));
+		const fragmento = document.createDocumentFragment();
+		crearItems(noticias).forEach((item) => fragmento.appendChild(item));
 		contenedor.appendChild(fragmento);
 	};
 
@@ -225,6 +266,177 @@
 
 	window.AntidataNoticias = { crearItem: crearItem, renderizar: renderizar, ordenar: ordenar };
 
+	/* PAGINACIÓN MEDIDA
+	   Cada página lleva tantas noticias como caben plegadas en el alto de la pantalla
+	   (menos los controles), midiendo el alto real de cada barra plegada. Si una
+	   noticia desplegada no cabe, el contenedor crece. Se recalcula con
+	   ResizeObserver (ancho) y con resize (alto, ignorando la barra de direcciones
+	   del móvil), con debounce. */
+
+	const ALTO_CONTROLES = 60;
+	const CAMBIO_ALTO_MINIMO = 120;
+	const ESPERA_RECALCULO = 200;
+
+	const TEXTOS = {
+		es: { nav: 'Páginas de noticias', anterior: 'Página anterior', siguiente: 'Página siguiente', pagina: 'Página', de: 'de' },
+		en: { nav: 'News pages', anterior: 'Previous page', siguiente: 'Next page', pagina: 'Page', de: 'of' }
+	};
+	const textos = () => (document.documentElement.getAttribute('lang') === 'en' ? TEXTOS.en : TEXTOS.es);
+
+	const paginar = (contenedor, noticias) => {
+		const items = crearItems(noticias);
+		let paginas = [];
+		let actual = 0;
+
+		items.forEach((item) => contenedor.appendChild(item));
+
+		const anterior = el('button', { type: 'button', class: 'paginacion-flecha' }, ['‹']);
+		const siguiente = el('button', { type: 'button', class: 'paginacion-flecha' }, ['›']);
+		const numeros = el('span', { class: 'paginacion-numeros' });
+		const aviso = el('p', { class: 'visually-hidden', 'aria-live': 'polite' });
+		const nav = el('nav', { class: 'paginacion' }, [anterior, numeros, siguiente, aviso]);
+		nav.hidden = true;
+		contenedor.parentNode.insertBefore(nav, contenedor.nextSibling);
+
+		// Alto de cada noticia plegada. Se pliegan y muestran por un instante dentro
+		// de la misma tarea, así que el navegador nunca llega a pintarlo.
+		const medirPlegadas = () => {
+			const estados = items.map((item) => {
+				const panel = item.querySelector('.accordion-collapse');
+				const visible = panel.classList.contains('show');
+				const oculto = item.hidden;
+				item.hidden = false;
+				panel.classList.remove('show');
+				return { panel: panel, visible: visible, oculto: oculto };
+			});
+			const altos = items.map((item) => item.offsetHeight);
+			items.forEach((item, i) => {
+				if (estados[i].visible) estados[i].panel.classList.add('show');
+				item.hidden = estados[i].oculto;
+			});
+			return altos;
+		};
+
+		// Reparte las noticias en páginas: cada una suma alturas plegadas hasta llenar
+		// el alto disponible (al menos una noticia por página)
+		const calcularPaginas = (altos, disponible) => {
+			const resultado = [];
+			let pagina = [];
+			let suma = 0;
+			altos.forEach((alto, i) => {
+				if (pagina.length && suma + alto > disponible) {
+					resultado.push(pagina);
+					pagina = [];
+					suma = 0;
+				}
+				pagina.push(i);
+				suma += alto;
+			});
+			if (pagina.length) resultado.push(pagina);
+			return resultado;
+		};
+
+		let irA;
+
+		const dibujarControles = () => {
+			const t = textos();
+			nav.hidden = paginas.length < 2;
+			nav.setAttribute('aria-label', t.nav);
+			anterior.setAttribute('aria-label', t.anterior);
+			siguiente.setAttribute('aria-label', t.siguiente);
+			anterior.disabled = actual === 0;
+			siguiente.disabled = actual >= paginas.length - 1;
+			while (numeros.firstChild) numeros.removeChild(numeros.firstChild);
+			paginas.forEach((_, i) => {
+				const boton = el('button', {
+					type: 'button',
+					'aria-label': t.pagina + ' ' + (i + 1),
+					'aria-current': i === actual ? 'page' : null
+				}, [String(i + 1)]);
+				boton.addEventListener('click', () => irA(i, true));
+				numeros.appendChild(boton);
+			});
+		};
+
+		const mostrar = () => {
+			items.forEach((item, i) => { item.hidden = paginas[actual].indexOf(i) < 0; });
+			dibujarControles();
+		};
+
+		irA = (pagina, porUsuario) => {
+			const conFoco = nav.contains(document.activeElement);
+			actual = Math.max(0, Math.min(pagina, paginas.length - 1));
+			mostrar();
+			if (porUsuario) {
+				const t = textos();
+				aviso.textContent = t.pagina + ' ' + (actual + 1) + ' ' + t.de + ' ' + paginas.length;
+				// Si el inicio de las noticias quedó arriba de la pantalla, se vuelve a él
+				if (contenedor.getBoundingClientRect().top < 0) contenedor.scrollIntoView({ block: 'start' });
+				// Los números se vuelven a dibujar: el foco pasa al de la página elegida
+				const elegido = numeros.querySelector('[aria-current="page"]');
+				if (conFoco && elegido) elegido.focus();
+			}
+		};
+
+		// Recalcula las páginas manteniendo visible la primera noticia de la página actual
+		const recalcular = () => {
+			if (contenedor.querySelector('.collapsing')) {
+				// Hay una animación del acordeón en curso: se mide cuando termine
+				setTimeout(recalcular, ESPERA_RECALCULO);
+				return;
+			}
+			const primera = paginas.length ? paginas[actual][0] : 0;
+			paginas = calcularPaginas(medirPlegadas(), window.innerHeight - ALTO_CONTROLES);
+			let nueva = 0;
+			paginas.forEach((pagina, i) => { if (pagina.indexOf(primera) >= 0) nueva = i; });
+			irA(nueva, false);
+		};
+
+		let temporizador = null;
+		const programar = () => {
+			clearTimeout(temporizador);
+			temporizador = setTimeout(recalcular, ESPERA_RECALCULO);
+		};
+
+		anterior.addEventListener('click', () => irA(actual - 1, true));
+		siguiente.addEventListener('click', () => irA(actual + 1, true));
+
+		// Ancho: ResizeObserver sobre el contenedor (o resize en navegadores sin él)
+		let ultimoAncho = contenedor.clientWidth;
+		let ultimoAlto = window.innerHeight;
+		if (window.ResizeObserver) {
+			new ResizeObserver(() => {
+				if (Math.abs(contenedor.clientWidth - ultimoAncho) > 1) {
+					ultimoAncho = contenedor.clientWidth;
+					programar();
+				}
+			}).observe(contenedor);
+		}
+		// Alto: solo cambios grandes (no la barra de direcciones que aparece y desaparece en el móvil)
+		window.addEventListener('resize', () => {
+			const cambioAncho = !window.ResizeObserver && Math.abs(contenedor.clientWidth - ultimoAncho) > 1;
+			if (cambioAncho || Math.abs(window.innerHeight - ultimoAlto) > CAMBIO_ALTO_MINIMO) {
+				ultimoAncho = contenedor.clientWidth;
+				ultimoAlto = window.innerHeight;
+				programar();
+			}
+		});
+
+		// Al desplegar una noticia, si su encabezado quedó arriba de la pantalla
+		// (p. ej. porque se plegaron las de arriba), se lleva a la vista
+		contenedor.addEventListener('shown.bs.collapse', (evento) => {
+			const item = evento.target.closest('.accordion-item');
+			if (item && item.getBoundingClientRect().top < 0) item.scrollIntoView({ block: 'start' });
+		});
+
+		// Los textos de los controles siguen al selector de idioma
+		document.addEventListener('antidata:idioma', dibujarControles);
+
+		recalcular();
+		// Las fuentes cambian el alto de las barras: se vuelve a medir cuando terminan de cargar
+		if (document.fonts && document.fonts.ready) document.fonts.ready.then(recalcular);
+	};
+
 	// Sitio público: carga el JSON indicado en data-noticias
 	const contenedor = document.querySelector('[data-noticias]');
 	if (contenedor && window.fetch) {
@@ -233,7 +445,7 @@
 				if (!respuesta.ok) throw new Error('HTTP ' + respuesta.status);
 				return respuesta.json();
 			})
-			.then((datos) => renderizar(contenedor, datos && datos.noticias))
+			.then((datos) => paginar(contenedor, datos && datos.noticias))
 			.catch(() => mostrarError(contenedor))
 			.then(() => contenedor.classList.remove('noticias-cargando'));
 	}

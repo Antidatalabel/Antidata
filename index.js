@@ -88,6 +88,8 @@ const mostrarIdioma = (idioma) => {
 	// el otro idioma va medio ciclo (14s) detrás
 	reiniciarAnimacion(animacionesIdioma[idioma], '-1s');
 	reiniciarAnimacion(animacionesIdioma[otro], '-15s');
+	// Avisa a las noticias (textos de la paginación)
+	document.dispatchEvent(new CustomEvent('antidata:idioma', { detail: { idioma: idioma } }));
 };
 
 document.querySelectorAll('.manifiesto-idiomas button').forEach((boton) => {
