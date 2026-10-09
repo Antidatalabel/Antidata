@@ -2,29 +2,6 @@
   "version": 1,
   "noticias": [
     {
-      "id": "atd-test-prueba",
-      "fecha": "2026-10-09",
-      "estado": "publicada",
-      "tipo": "lanzamiento",
-      "titulo": "Prueba EP 444444444",
-      "subtitulo": "ATDTEST - Prueba EP",
-      "catalogo": "ATD-TEST",
-      "artista": "DJ TESTttttttt",
-      "portada": "img/art/atd-test-prueba.jpg",
-      "portadaAlt": "Prueba EP",
-      "portadaTamanos": [
-        64,
-        400,
-        800,
-        1200,
-        2000
-      ],
-      "cuerpo": {
-        "es": "Esto es una prueba\n\nBUEN DISCO! :D",
-        "en": "This is a test\n\nNice choons!"
-      }
-    },
-    {
       "id": "atd-003-piedra-del-lobo",
       "fecha": "2026-01-01",
       "estado": "publicada",

@@ -95,7 +95,9 @@ final en admin.antidata.id):
       del conflicto y no pisa el cambio.
 - [ ] Borrarla (pide confirmación) y restaurarla desde Historial.
 - [ ] Salir: vuelve a pedir contraseña.
-- [ ] `admin.antidata.id/_lib/auth` y `admin.antidata.id/functions/...` dan 404.
+- [ ] `/_lib/auth` y `/functions/_lib/auth.js` del admin **no muestran código** (lo normal
+      es que muestren la pantalla de contraseña: Cloudflare muestra la página principal en
+      las direcciones que no existen, en vez de un 404).
 - [ ] `admin.antidata.id/robots.txt` dice `Disallow: /`.
 - [ ] La cookie en DevTools → *Application* → *Cookies* es `__Host-atd_sesion` con
       *HttpOnly*, *Secure* y *SameSite Strict*.
