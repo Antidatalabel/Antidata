@@ -386,21 +386,18 @@ p {
     100%   { opacity: 0; visibility: hidden; }
 }
 
-@media (prefers-reduced-motion: reduce) {
-    .manifiesto {
-        display: block;
-    }
-    .manifiesto-texto {
-        animation: none;
-    }
-	.manifiesto-idiomas {
-        display: none;
-    }
-}
-.manifiesto-idiomas span {
+.manifiesto-idiomas button {
     opacity: 0.35;
     animation: idioma-activo 28s infinite;
-	font-size: 0.8em
+	font-size: 0.8em;
+    /* Botones con el mismo aspecto que el texto */
+    background: none;
+    border: 0;
+    padding: 0;
+    font-family: inherit;
+    letter-spacing: inherit;
+    color: inherit;
+    cursor: pointer;
 }
 
 .manifiesto-idiomas .idioma-en {
@@ -422,4 +419,27 @@ p {
 .en-primero .manifiesto-en,
 .en-primero .idioma-en {
     animation-delay: 0s;
+}
+
+/* Movimiento reducido: sin animación. Se muestra un solo idioma, el del navegador
+   o el elegido con los botones ES/EN (que cambian la clase en-primero) */
+@media (prefers-reduced-motion: reduce) {
+    .manifiesto-texto,
+    .manifiesto-idiomas button {
+        animation: none;
+    }
+    .manifiesto-en,
+    .en-primero .manifiesto-texto[lang="es"] {
+        visibility: hidden;
+    }
+    .en-primero .manifiesto-en {
+        visibility: visible;
+    }
+    .manifiesto-idiomas .idioma-es,
+    .en-primero .manifiesto-idiomas .idioma-en {
+        opacity: 1;
+    }
+    .en-primero .manifiesto-idiomas .idioma-es {
+        opacity: 0.35;
+    }
 }
