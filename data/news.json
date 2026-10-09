@@ -2,19 +2,6 @@
   "version": 1,
   "noticias": [
     {
-      "id": "ayoooooooo",
-      "fecha": "2026-10-09",
-      "estado": "borrador",
-      "tipo": "noticia",
-      "titulo": "AYOOOOOOOO",
-      "imagen": "img/flyers/ayoooooooo.jpg",
-      "enlace": "https://www.reddit.com/",
-      "cuerpo": {
-        "es": "cachate esta wea mi chan",
-        "en": "check this shit out my chan"
-      }
-    },
-    {
       "id": "atd-003-piedra-del-lobo",
       "fecha": "2026-01-01",
       "estado": "publicada",
