@@ -76,13 +76,16 @@
     border: none !important;
 } 
 
+/* overflow-x: hidden es el respaldo para navegadores sin soporte de clip (Safari < 16) */
 html {
+    overflow-x: hidden;
     overflow-x: clip;
 }
 
 body {
     padding: 20px 0;
     position: relative;
+    overflow-x: hidden;
     overflow-x: clip;
 }
 
@@ -113,9 +116,17 @@ body::before {
     min-height: 1550px;
     margin: auto;
     box-shadow: 10px 10px 5px rgba(0,0,0,0.5);
-    transform: rotateZ(2deg);
     position: relative;
     padding-bottom: 100px;
+}
+
+/* Hoja girada solo cuando sobra espacio a los lados (1250px de hoja + ~75px por
+   lado). Al girar una página tan alta, sus extremos se desplazan hacia los costados;
+   en pantallas más angostas (tablets, laptops chicas) quedaban cortados */
+@media (min-width: 1400px) {
+    .pagina {
+        transform: rotateZ(2deg);
+    }
 }
 
 .contenido {
@@ -160,6 +171,7 @@ p {
     background-color: var(--color-fuente);
     color: var(--color-fuente);
     padding: 3px;
+    -webkit-user-select: none;
     user-select: none;
     cursor: none;
 }
@@ -193,6 +205,14 @@ p {
     background-color: var(--fondo-pagina) !important;
 }
 
+/* Desktop: año y miniatura de portada desplazados dentro de su columna.
+   El padding en % se calcula sobre el ancho de la fila, así que escala con la pantalla */
+@media (min-width: 769px) {
+    .accordion-button .col-3:nth-child(n+3) {
+        padding-left: 8%;
+    }
+}
+
 .cabecera {
     width: 100%;
 }
@@ -223,6 +243,13 @@ p {
     height: auto;
 }
 
+/* Bajo 1200px la portada va sobre el reproductor: mismo ancho que él */
+@media (max-width: 1199.98px) {
+    .arte-body {
+        width: 100%;
+    }
+}
+
 .flyer {
     margin: auto;
     display: block;
@@ -247,9 +274,48 @@ p {
 }
 
 .iframe {
+    position: absolute;
+    top: -1px;
+    left: -1px;
     border: 0;
+    width: calc(100% + 2px);
+    height: 42px;
+    /* Evita que el navegador pinte un fondo blanco opaco en el iframe en modo oscuro */
+    color-scheme: light;
+}
+
+/* Contenedor del reproductor de Bandcamp. Bandcamp dibuja su caja con un máximo
+   de 700px (fondo blanco y borde 1px #d2d2d2); este bloque imita esa caja con el
+   ancho completo del texto, para que el reproductor parezca alineado con él */
+.reproductor {
+    position: relative;
     width: 100%;
     height: 42px;
+    background-color: #fff;
+    border: 1px solid #d2d2d2;
+    overflow: hidden;
+}
+
+/* Tapa el borde derecho que Bandcamp dibuja en el píxel 700 del reproductor.
+   Es una franja ancha (entre el logo "bc", que termina en el píxel 678, y más allá
+   del borde) para que no dependa del redondeo de cada navegador o escalado.
+   Si la columna mide 700px o menos, queda fuera del bloque y no se ve */
+.reproductor::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 683px;
+    width: 32px;
+    background-color: #fff;
+    pointer-events: none;
+}
+
+/* Mismo margen derecho que el texto de la noticia (.pe-xl-5 = 3rem desde xl) */
+@media (min-width: 1200px) {
+    .reproductor {
+        width: calc(100% - 3rem);
+    }
 }
 
 /* ===== Mobile ===== */
@@ -287,7 +353,8 @@ p {
     .accordion-button .row {
         align-items: center;
     }
-    .accordion-button .col-3:has(> .arte-header) {
+    /* La miniatura es siempre la última columna (sin :has(), para navegadores antiguos) */
+    .accordion-button .row > .col-3:last-child {
         display: none;
     }
     .accordion-button .col-3 {

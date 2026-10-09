@@ -31,12 +31,19 @@ toggle.addEventListener('click', (e) => {
 	setColorMode(modo === modoSistema ? null : modo);
 });
 
-mediaQuery.addEventListener('change', () => {
+const alCambiarModoSistema = () => {
 	if (document.documentElement.getAttribute('data-force-color-mode')) {
 		return;
 	}
 	toggle.checked = mediaQuery.matches;
-});
+};
+
+// Safari/iOS < 14 solo soporta addListener en matchMedia
+if (mediaQuery.addEventListener) {
+	mediaQuery.addEventListener('change', alCambiarModoSistema);
+} else {
+	mediaQuery.addListener(alCambiarModoSistema);
+}
 
 // Estado inicial del interruptor (el atributo ya se aplicó en el <head>)
 const colorModeOverride = leerModoGuardado();
