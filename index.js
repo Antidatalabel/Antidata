@@ -31,12 +31,19 @@ toggle.addEventListener('click', (e) => {
 	setColorMode(modo === modoSistema ? null : modo);
 });
 
-mediaQuery.addEventListener('change', () => {
+const alCambiarModoSistema = () => {
 	if (document.documentElement.getAttribute('data-force-color-mode')) {
 		return;
 	}
 	toggle.checked = mediaQuery.matches;
-});
+};
+
+// Safari/iOS < 14 solo soporta addListener en matchMedia
+if (mediaQuery.addEventListener) {
+	mediaQuery.addEventListener('change', alCambiarModoSistema);
+} else {
+	mediaQuery.addListener(alCambiarModoSistema);
+}
 
 // Estado inicial del interruptor (el atributo ya se aplicó en el <head>)
 const colorModeOverride = leerModoGuardado();
@@ -45,3 +52,33 @@ toggle.checked = colorModeOverride ? (colorModeOverride === 'dark') : mediaQuery
 if (!navigator.language.toLowerCase().startsWith('es')) {
 	document.documentElement.classList.add('en-primero');
 }
+
+// Selector de idioma del manifiesto: al hacer clic en ES o EN, ese idioma se muestra
+// de inmediato y el ciclo de 28s se reinicia para darle su tiempo completo de lectura
+const animacionesIdioma = {
+	es: document.querySelectorAll('.manifiesto-texto[lang="es"], .manifiesto-idiomas .idioma-es'),
+	en: document.querySelectorAll('.manifiesto-texto[lang="en"], .manifiesto-idiomas .idioma-en')
+};
+
+const reiniciarAnimacion = (elementos, retraso) => {
+	elementos.forEach((el) => {
+		el.style.animationName = 'none';
+		void el.offsetWidth; // fuerza al navegador a aplicar el cambio antes de reactivarla
+		el.style.animationDelay = retraso;
+		el.style.animationName = '';
+	});
+};
+
+const mostrarIdioma = (idioma) => {
+	const otro = idioma === 'es' ? 'en' : 'es';
+	// Con movimiento reducido no hay animación: esta clase decide qué idioma se ve
+	document.documentElement.classList.toggle('en-primero', idioma === 'en');
+	// -1s salta el fundido de entrada (1s) para que aparezca ya visible;
+	// el otro idioma va medio ciclo (14s) detrás
+	reiniciarAnimacion(animacionesIdioma[idioma], '-1s');
+	reiniciarAnimacion(animacionesIdioma[otro], '-15s');
+};
+
+document.querySelectorAll('.manifiesto-idiomas button').forEach((boton) => {
+	boton.addEventListener('click', () => mostrarIdioma(boton.dataset.idioma));
+});
