@@ -2,6 +2,20 @@
   "version": 1,
   "noticias": [
     {
+      "id": "horror-hausu",
+      "fecha": "2026-10-31",
+      "estado": "publicada",
+      "tipo": "noticia",
+      "titulo": "HALLOWEEN - HORROR HAUSU",
+      "imagen": "img/flyers/horror-hausu.jpg",
+      "imagenAlt": "Afiche HORROR HAUSU",
+      "enlace": "https://www.toliv.com/eventos/chile/santiago-centro/horror-hausu-26525",
+      "cuerpo": {
+        "es": "**FIESTA HALLOWEEN**\n\nKIF x SSC x ANTIDATA\n\n31/10/26\n\nHORARIO EXTENDIDO\nFIESTA + AFTER\n11PM a 9AM\n\n[INFO](https://www.instagram.com/p/Dd_ykHaxW9b/)",
+        "en": "**HALLOWEEN PARTY**\n\nKIF x SSC x ANTIDATA\n\n31/10/26\n\nEXTENDED\nPARTY + AFTER\n11PM to 9AM\n\n[INFO](https://www.instagram.com/p/Dd_ykHaxW9b/)"
+      }
+    },
+    {
       "id": "atd-003-piedra-del-lobo",
       "fecha": "2026-10-02",
       "estado": "publicada",
