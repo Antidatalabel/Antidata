@@ -8,7 +8,8 @@
 	const SITIO = 'https://antidata.id/';
 	// Anchos de portada generados al subir (la barra usa 64; el resto, según la pantalla)
 	const TAMANOS_PORTADA = [64, 400, 800, 1200, 2000];
-	const ANCHO_FLYER = 1200;
+	// El flyer no tiene miniatura en la barra
+	const TAMANOS_FLYER = [400, 800, 1200];
 	const CALIDAD_JPEG = 0.82;
 
 	const $ = (selector) => document.querySelector(selector);
@@ -224,6 +225,8 @@
 			if (imagen) {
 				n.imagen = imagen;
 				opcional('imagenAlt', campo('imagen-alt').value);
+				const tamanos = estado.imagen ? estado.imagen.tamanos : previa.imagenTamanos;
+				if (tamanos && tamanos.length) n.imagenTamanos = tamanos;
 			}
 			opcional('enlace', campo('enlace').value);
 		}
@@ -262,7 +265,7 @@
 		if (estado.imagen) {
 			src = estado.imagen.vista;
 		} else if (ruta) {
-			const tamanos = n.portadaTamanos || [];
+			const tamanos = (n.tipo === 'noticia' ? n.imagenTamanos : n.portadaTamanos) || [];
 			src = /^https:/.test(ruta) ? ruta : SITIO + (tamanos.length ? ruta.replace(/\.jpg$/i, '-' + tamanos[0] + '.jpg') : ruta);
 		}
 		miniatura.hidden = !src;
@@ -280,6 +283,48 @@
 		if (enlace) campo('bandcamp-url').value = enlace[1];
 		if (texto) campo('bandcamp-texto').value = texto[1].trim();
 		programarVista();
+	});
+
+	/* ---------- barra de formato del texto ---------- */
+
+	const LISTA = /^-[ \t]+/;
+
+	const aplicarFormato = (area, formato) => {
+		const valor = area.value;
+		let inicio = area.selectionStart;
+		let fin = area.selectionEnd;
+		const seleccion = valor.slice(inicio, fin);
+		if (formato === 'negrita' || formato === 'cursiva') {
+			const marca = formato === 'negrita' ? '**' : '*';
+			area.setRangeText(marca + seleccion + marca, inicio, fin, 'end');
+			// Sin selección, el cursor queda entre las marcas para escribir
+			if (!seleccion) area.setSelectionRange(inicio + marca.length, inicio + marca.length);
+		} else if (formato === 'enlace') {
+			const textoEnlace = seleccion || 'texto';
+			area.setRangeText('[' + textoEnlace + '](https://)', inicio, fin, 'end');
+			// Queda seleccionado "https://" para pegar encima la dirección
+			const url = inicio + textoEnlace.length + 3;
+			area.setSelectionRange(url, url + 8);
+		} else if (formato === 'lista') {
+			// Líneas completas que toca la selección: si todas ya son lista se quita el "- "
+			inicio = valor.lastIndexOf('\n', inicio - 1) + 1;
+			const corte = valor.indexOf('\n', fin > inicio && valor[fin - 1] === '\n' ? fin - 1 : fin);
+			fin = corte < 0 ? valor.length : corte;
+			const lineas = valor.slice(inicio, fin).split('\n');
+			const conTexto = lineas.filter((l) => l.trim());
+			const quitar = conTexto.length > 0 && conTexto.every((l) => LISTA.test(l));
+			const nuevas = lineas.map((l) => (!l.trim() ? l : (quitar ? l.replace(LISTA, '') : '- ' + l)));
+			area.setRangeText(nuevas.join('\n'), inicio, fin, 'select');
+		}
+		area.focus();
+		area.dispatchEvent(new Event('input', { bubbles: true }));
+	};
+
+	form.querySelectorAll('.barra-formato').forEach((barra) => {
+		const area = campo(barra.dataset.para);
+		barra.querySelectorAll('[data-formato]').forEach((boton) => {
+			boton.addEventListener('click', () => aplicarFormato(area, boton.dataset.formato));
+		});
 	});
 
 	/* ---------- imágenes: se reducen en el navegador antes de subirlas ---------- */
@@ -323,24 +368,18 @@
 		try {
 			const { img, url } = await cargarImagen(archivo);
 			const id = estado.editando || estado.idNuevo || (estado.idNuevo = idUnico(slug((campo('catalogo').value + ' ' + campo('titulo').value).replace(/\s+ep$/i, ''))));
-			let imagen;
-			if (campo('tipo').value === 'noticia') {
-				const ruta = 'img/flyers/' + id + '.jpg';
-				const blob = await reducir(img, ANCHO_FLYER);
-				imagen = { ruta: ruta, tamanos: null, archivos: [{ ruta: ruta, base64: await aBase64(blob) }], vista: URL.createObjectURL(blob) };
-			} else {
-				// No se agranda: solo los tamaños hasta el ancho original (al menos el más chico)
-				const tamanos = TAMANOS_PORTADA.filter((t, i) => i === 0 || t <= img.naturalWidth);
-				const ruta = 'img/art/' + id + '.jpg';
-				const archivos = [];
-				let vista = '';
-				for (const t of tamanos) {
-					const blob = await reducir(img, t);
-					archivos.push({ ruta: 'img/art/' + id + '-' + t + '.jpg', base64: await aBase64(blob) });
-					if (t <= 1200) vista = URL.createObjectURL(blob);
-				}
-				imagen = { ruta: ruta, tamanos: tamanos, archivos: archivos, vista: vista };
+			const esFlyer = campo('tipo').value === 'noticia';
+			const carpeta = esFlyer ? 'img/flyers/' : 'img/art/';
+			// No se agranda: solo los tamaños hasta el ancho original (al menos el más chico)
+			const tamanos = (esFlyer ? TAMANOS_FLYER : TAMANOS_PORTADA).filter((t, i) => i === 0 || t <= img.naturalWidth);
+			const archivos = [];
+			let vista = '';
+			for (const t of tamanos) {
+				const blob = await reducir(img, t);
+				archivos.push({ ruta: carpeta + id + '-' + t + '.jpg', base64: await aBase64(blob) });
+				if (t <= 1200) vista = URL.createObjectURL(blob);
 			}
+			const imagen = { ruta: carpeta + id + '.jpg', tamanos: tamanos, archivos: archivos, vista: vista };
 			URL.revokeObjectURL(url);
 			estado.imagen = imagen;
 			mostrarImagenActual(leerFormulario());
@@ -397,7 +436,7 @@
 		const n = leerFormulario();
 		const vista = Object.assign({}, n, { id: n.id || 'vista-previa' });
 		if (estado.imagen) {
-			if (n.tipo === 'noticia') vista.imagen = estado.imagen.vista;
+			if (n.tipo === 'noticia') { vista.imagen = estado.imagen.vista; delete vista.imagenTamanos; }
 			else { vista.portada = estado.imagen.vista; delete vista.portadaTamanos; }
 		}
 		const contenedor = doc.getElementById('accordion');
@@ -411,6 +450,17 @@
 		contenedor.appendChild(doc.importNode(item, true));
 		const boton = contenedor.querySelector('.accordion-button');
 		if (boton) boton.addEventListener('click', () => { estado.vistaAbierta = !estado.vistaAbierta; marcarBotonesVista(); actualizarVista(); });
+		// El marco crece con la noticia (también cuando terminan de cargar sus imágenes)
+		contenedor.querySelectorAll('img').forEach((img) => {
+			img.loading = 'eager';
+			img.addEventListener('load', ajustarAltoVista);
+		});
+		ajustarAltoVista();
+	};
+
+	const ajustarAltoVista = () => {
+		const cuerpo = marco.contentDocument && marco.contentDocument.body;
+		if (cuerpo) marco.style.height = Math.max(120, cuerpo.scrollHeight) + 'px';
 	};
 
 	let temporizadorVista = null;

@@ -16,8 +16,12 @@ desde la rama `main`. Las noticias viven en `data/news.json` y se editan desde
 6. Marca **Publicada** (o déjala en *Borrador* para seguir otro día) y **Guardar** (Ctrl+S).
 7. El sitio se actualiza en uno o dos minutos (Cloudflare reconstruye al recibir el commit).
 
-Formato del texto: una línea en blanco entre párrafos, `**negrita**`, `*cursiva*`,
-`[texto](https://enlace)`. Nada de HTML.
+Formato del texto: Enter = salto de línea, una línea en blanco = párrafo nuevo, `- ` al
+inicio de cada línea = lista, `**negrita**`, `*cursiva*`, `[texto](https://enlace)`. Nada
+de HTML. Los botones sobre cada texto aplican el formato a lo seleccionado.
+
+En una *Noticia*, el flyer se ve del mismo tamaño que la portada de un lanzamiento, y el
+título (dentro de la noticia) y el flyer llevan al **Enlace**.
 
 **Deshacer:** *Historial* → *Restaurar* en la versión anterior. Restaurar no borra nada:
 crea un cambio nuevo, así que también se puede deshacer.

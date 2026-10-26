@@ -4,7 +4,8 @@
 
    Todo el texto se inserta con textContent: nunca se interpreta HTML del JSON.
    El cuerpo admite un formato acotado:
-     - párrafos separados por una línea en blanco (un salto simple es un espacio)
+     - párrafos separados por una línea en blanco; un salto simple es un salto de línea
+     - un párrafo cuyas líneas empiezan todas con "- " es una lista
      - **negrita**, *cursiva* y [texto](https://enlace)
    Lo usa también el admin para la vista previa (window.AntidataNoticias). */
 
@@ -87,24 +88,40 @@
 		.map((p) => p.trim())
 		.filter((p) => p.length > 0);
 
+	const LISTA = /^-[ \t]+/;
+
+	// Un párrafo: sus líneas separadas por <br>, o una lista si todas empiezan con "- "
+	const bloque = (p, claseParrafo) => {
+		const lineas = p.split('\n').map((l) => l.trim()).filter((l) => l.length > 0);
+		if (lineas.every((l) => LISTA.test(l))) {
+			return el('ul', { class: claseParrafo }, lineas.map((l) => {
+				const item = el('li');
+				agregarEnLinea(item, l.replace(LISTA, ''));
+				return item;
+			}));
+		}
+		const parrafo = el('p', { class: claseParrafo });
+		lineas.forEach((l, i) => {
+			if (i > 0) parrafo.appendChild(el('br'));
+			agregarEnLinea(parrafo, l);
+		});
+		return parrafo;
+	};
+
 	// Un bloque por idioma; el CSS muestra solo el idioma activo
 	const bloquesIdioma = (cuerpo, claseParrafo) => IDIOMAS
 		.filter((idioma) => cuerpo && texto(cuerpo[idioma]).trim())
 		.map((idioma) => el('div', { class: 'noticia-texto', lang: idioma },
-			parrafos(cuerpo[idioma]).map((p) => {
-				const parrafo = el('p', { class: claseParrafo });
-				agregarEnLinea(parrafo, p);
-				return parrafo;
-			})));
+			parrafos(cuerpo[idioma]).map((p) => bloque(p, claseParrafo))));
 
-	// Portada: si hay versiones reducidas (img/art/x-400.jpg, ...), el navegador
+	// Portada o flyer: si hay versiones reducidas (img/art/x-400.jpg, ...), el navegador
 	// elige la que necesita; si no, se usa el archivo original
-	const atributosPortada = (noticia, clase, enBarra) => {
-		const ruta = texto(noticia.portada);
-		const tamanos = Array.isArray(noticia.portadaTamanos) ? noticia.portadaTamanos.slice().sort((a, b) => a - b) : [];
+	const atributosImagen = (ruta, listaTamanos, alt, clase, enBarra) => {
+		ruta = texto(ruta);
+		const tamanos = Array.isArray(listaTamanos) ? listaTamanos.slice().sort((a, b) => a - b) : [];
 		const base = ruta.replace(/\.[a-z0-9]+$/i, '');
 		const extension = (ruta.match(/\.[a-z0-9]+$/i) || [''])[0];
-		const atributos = { class: clase, alt: texto(noticia.portadaAlt), src: ruta };
+		const atributos = { class: clase, alt: texto(alt), src: ruta };
 		if (tamanos.length) {
 			const version = (ancho) => base + '-' + ancho + extension;
 			if (enBarra) {
@@ -119,6 +136,8 @@
 		if (!enBarra) atributos.loading = 'lazy';
 		return atributos;
 	};
+
+	const atributosPortada = (noticia, clase, enBarra) => atributosImagen(noticia.portada, noticia.portadaTamanos, noticia.portadaAlt, clase, enBarra);
 
 	const anio = (noticia) => (FECHA_ISO.test(texto(noticia.fecha)) ? noticia.fecha.slice(0, 4) : '');
 
@@ -175,14 +194,22 @@
 		].filter(Boolean).concat(bloquesIdioma(noticia.cuerpo, 'pe-xl-5')))
 	];
 
+	// Noticia general: misma disposición que un lanzamiento. El flyer ocupa el lugar
+	// de la portada y el título, el del subtítulo; los dos llevan al enlace
 	const cuerpoNoticia = (noticia) => {
-		const imagen = imagenValida(noticia.imagen) ? el('img', { class: 'flyer', alt: texto(noticia.imagenAlt), src: noticia.imagen }) : null;
-		const conEnlace = imagen && ENLACE_PERMITIDO.test(texto(noticia.enlace))
-			? el('a', { href: noticia.enlace, target: '_blank', rel: 'noopener noreferrer' }, [imagen])
-			: imagen;
+		const hayEnlace = ENLACE_PERMITIDO.test(texto(noticia.enlace));
+		const conEnlace = (nodo) => (hayEnlace
+			? el('a', { href: noticia.enlace, target: '_blank', rel: 'noopener noreferrer' }, [nodo])
+			: nodo);
+		const imagen = imagenValida(noticia.imagen)
+			? el('img', atributosImagen(noticia.imagen, noticia.imagenTamanos, noticia.imagenAlt, 'arte-body', false))
+			: null;
 		return [
-			el('div', { class: imagen ? 'col-xl-6' : 'col' }, bloquesIdioma(noticia.cuerpo, null)),
-			conEnlace ? el('div', { class: 'col-xl-6' }, [conEnlace]) : null
+			imagen ? el('div', { class: 'col-12 col-xl-4' }, [conEnlace(imagen)]) : null,
+			el('div', { class: imagen ? 'col-12 col-xl-8' : 'col-12' }, [
+				el('p', { class: 'mt-3 pe-xl-5' }),
+				el('p', { class: 'pe-xl-5 titulo-noticia' }, [conEnlace(el('span', { class: 'destacado' }, [texto(noticia.titulo)]))])
+			].concat(bloquesIdioma(noticia.cuerpo, 'pe-xl-5')))
 		].filter(Boolean);
 	};
 
@@ -215,7 +242,7 @@
 			'data-bs-parent': exclusiva ? '#accordion' : null,
 			'data-bs-parent-off': exclusiva ? null : '#accordion'
 		}, [el('div', { class: 'accordion-body' }, [
-			el('div', { class: esLanzamiento ? 'container' : 'container mt-3' }, [
+			el('div', { class: 'container' }, [
 				el('div', { class: 'row' }, esLanzamiento ? cuerpoLanzamiento(noticia, abierta) : cuerpoNoticia(noticia))
 			])
 		])]);

@@ -119,18 +119,32 @@
                     <label>Descripción de la imagen (para lectores de pantalla)
                         <input type="text" name="imagen-alt" maxlength="300">
                     </label>
-                    <label class="solo-noticia">Enlace al hacer clic en la imagen
+                    <label class="solo-noticia">Enlace (al hacer clic en el título o la imagen)
                         <input type="url" name="enlace" placeholder="https://...">
                     </label>
                 </fieldset>
 
-                <p class="suave ayuda">Texto: deja una línea en blanco entre párrafos. <code>**negrita**</code>, <code>*cursiva*</code>, <code>[texto](https://enlace)</code>.</p>
-                <label>Texto en español
-                    <textarea name="cuerpo-es" rows="8"></textarea>
-                </label>
-                <label>Texto en inglés
-                    <textarea name="cuerpo-en" rows="8"></textarea>
-                </label>
+                <p class="suave ayuda">Texto: Enter = salto de línea · línea en blanco = párrafo nuevo · <code>- </code> al inicio de cada línea = lista · <code>**negrita**</code>, <code>*cursiva*</code>, <code>[texto](https://enlace)</code>. Los botones aplican el formato al texto seleccionado.</p>
+                <div class="campo-texto">
+                    <label for="cuerpo-es">Texto en español</label>
+                    <div class="barra-formato" data-para="cuerpo-es">
+                        <button type="button" data-formato="negrita" aria-label="Negrita"><b>B</b></button>
+                        <button type="button" data-formato="cursiva" aria-label="Cursiva"><i>I</i></button>
+                        <button type="button" data-formato="enlace">Enlace</button>
+                        <button type="button" data-formato="lista">Lista</button>
+                    </div>
+                    <textarea id="cuerpo-es" name="cuerpo-es" rows="8"></textarea>
+                </div>
+                <div class="campo-texto">
+                    <label for="cuerpo-en">Texto en inglés</label>
+                    <div class="barra-formato" data-para="cuerpo-en">
+                        <button type="button" data-formato="negrita" aria-label="Negrita"><b>B</b></button>
+                        <button type="button" data-formato="cursiva" aria-label="Cursiva"><i>I</i></button>
+                        <button type="button" data-formato="enlace">Enlace</button>
+                        <button type="button" data-formato="lista">Lista</button>
+                    </div>
+                    <textarea id="cuerpo-en" name="cuerpo-en" rows="8"></textarea>
+                </div>
 
                 <fieldset>
                     <legend>Vista previa</legend>

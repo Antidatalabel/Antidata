@@ -259,10 +259,10 @@ p {
     }
 }
 
-.flyer {
-    margin: auto;
-    display: block;
-    max-width: 100%
+/* Título de una noticia general: mismo aspecto que el subtítulo de un lanzamiento,
+   subrayado cuando lleva al enlace */
+.titulo-noticia a {
+    color: inherit;
 }
 
 .footer {

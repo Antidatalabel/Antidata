@@ -168,6 +168,13 @@ code { font-family: inherit; border: 1px solid var(--borde); padding: 0 4px; }
 .imagen-actual img { flex: none; width: 64px; height: 64px; object-fit: cover; border: 1px solid var(--borde); }
 .imagen-actual span { min-width: 0; overflow-wrap: anywhere; }
 
+/* Texto de la noticia con su barra de formato */
+.campo-texto { margin-bottom: 12px; }
+.campo-texto label { margin-bottom: 4px; }
+.barra-formato { display: flex; gap: 4px; flex-wrap: wrap; margin-bottom: 4px; }
+.barra-formato button { padding: 4px 12px; min-width: 44px; }
+
+/* Alto inicial: después admin.js lo ajusta al contenido */
 .vista-previa { width: 100%; height: 420px; border: 1px solid var(--borde); background: var(--fondo-pagina); }
 
 /* Barra de guardar fija abajo, cómoda en el teléfono */

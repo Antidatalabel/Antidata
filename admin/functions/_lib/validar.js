@@ -52,19 +52,20 @@ const validarNoticia = (n, i, errores) => {
 	opcional('catalogo', 40);
 	opcional('artista', 200);
 
+	const tamanos = (lista) => (Array.isArray(lista) ? lista.filter((t) => TAMANOS.indexOf(t) >= 0) : []);
 	if (n.portada) {
 		if (IMAGEN.test(n.portada)) salida.portada = n.portada; else errores.push(`${donde}: portada inválida`);
 		const alt = limpiar(n.portadaAlt, 300);
 		salida.portadaAlt = alt;
-		if (Array.isArray(n.portadaTamanos)) {
-			const tamanos = n.portadaTamanos.filter((t) => TAMANOS.indexOf(t) >= 0);
-			if (tamanos.length) salida.portadaTamanos = tamanos;
-		}
+		const portadaTamanos = tamanos(n.portadaTamanos);
+		if (portadaTamanos.length) salida.portadaTamanos = portadaTamanos;
 	}
 	if (n.imagen) {
 		if (IMAGEN.test(n.imagen)) salida.imagen = n.imagen; else errores.push(`${donde}: imagen inválida`);
 		const alt = limpiar(n.imagenAlt, 300);
 		if (alt) salida.imagenAlt = alt;
+		const imagenTamanos = tamanos(n.imagenTamanos);
+		if (imagenTamanos.length) salida.imagenTamanos = imagenTamanos;
 	}
 	if (n.enlace) {
 		const enlace = limpiar(n.enlace, 500);
@@ -116,13 +117,14 @@ export const validarArchivos = (archivos, datos) => {
 	if (!Array.isArray(archivos)) return { errores: [], archivos: [] };
 	if (archivos.length > MAX_ARCHIVOS) return { errores: [`Máximo ${MAX_ARCHIVOS} imágenes por guardado`] };
 	const usadas = {};
+	const usar = (ruta, tamanos) => {
+		const base = ruta.replace(/\.jpg$/i, '');
+		(tamanos || []).forEach((t) => { usadas[`${base}-${t}.jpg`] = true; });
+		usadas[ruta] = true;
+	};
 	datos.noticias.forEach((n) => {
-		if (n.portada) {
-			const base = n.portada.replace(/\.jpg$/i, '');
-			(n.portadaTamanos || []).forEach((t) => { usadas[`${base}-${t}.jpg`] = true; });
-			usadas[n.portada] = true;
-		}
-		if (n.imagen) usadas[n.imagen] = true;
+		if (n.portada) usar(n.portada, n.portadaTamanos);
+		if (n.imagen) usar(n.imagen, n.imagenTamanos);
 	});
 	const validos = [];
 	archivos.forEach((archivo, i) => {
